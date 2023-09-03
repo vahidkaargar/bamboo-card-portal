@@ -1,0 +1,29 @@
+{
+    "name": "vahidkaargar/bamboo-card-portal",
+    "description": "This is Bamboocardportal.com package",
+    "type": "library",
+    "keywords": ["laravel", "bamboocardportal", "api"],
+    "license": "MIT",
+    "authors": [
+        {
+            "email": "vahidkaargar@gmail.com",
+            "name": "Vahid Kaargar"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "vahidkaargar\\BambooCardPortal\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.4",
+        "illuminate/support": "^8.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "vahidkaargar\\BambooCardPortal\\Tests\\": "tests/"
+        }
+    }
+}
+
