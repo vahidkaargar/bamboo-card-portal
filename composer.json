@@ -31,5 +31,12 @@
     "psr-4": {
       "vahidkaargar\\BambooCardPortal\\Tests\\": "tests/"
     }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "vahidkaargar\\BambooCardPortal\\BambooServiceProvider"
+      ]
+    }
   }
 }
