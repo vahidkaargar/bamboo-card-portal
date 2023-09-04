@@ -1,6 +1,8 @@
 ## Bamboo Card Portal Api
+This is a Laravel package for using Bamboo api
 
-Bamboo
+### What is Bamboo
+BAMBOO ELECTRONIC CARDS TRADING LLC is one of the leading Digital Prepaid Products Distributor and Rewards fulfillment agency in the Middle East.
 
 ### Requirement
 1. This is a Laravel package
@@ -60,7 +62,8 @@ use vahidkaargar\BambooCardPortal\Bamboo;
 $bamboo = (new Bamboo())->orders();
  
  /*
- * checkout and create an order
+  * checkout and create an order
+  * you can add multiple products
  */
  $requestedId = Str::uuid();
  $checkout = $bamboo->setRequestId($requestedId)
