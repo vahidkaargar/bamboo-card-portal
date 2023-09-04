@@ -4,6 +4,7 @@ namespace vahidkaargar\BambooCardPortal;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Josantonius\HttpStatusCode\HttpStatusCode;
 
 class Api
 {
@@ -29,30 +30,29 @@ class Api
             ]);
         }
 
-        return $this->failed('Connect to server has been failed',);
+        return $this->failed($response->getStatusCode(), $response->json());
     }
 
     /**
-     * @param string $message
      * @param int $status
+     * @param null $body
      * @return Collection
      */
-    public function failed(string $message, int $status = 400): Collection
+    public function failed(int $status = 400, $body = null): Collection
     {
         return collect([
             "success" => false,
             "status" => $status,
             "message" => $this->messages($status),
-            "data" => null
+            "data" => $body
         ]);
     }
 
     public function messages($status): string
     {
-        $messages = [
-            '400' => 'Bad request'
-        ];
+        $httpStatusCode = new HttpStatusCode();
+        $messages = $httpStatusCode->getMessages();;
 
-        return $messages[(string)$status] ?? 'N/A';
+        return $messages[$status] ?? 'N/A';
     }
 }
