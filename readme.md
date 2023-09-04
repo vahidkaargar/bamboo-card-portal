@@ -11,6 +11,11 @@ Bamboo
 composer require "vahidkaargar/bamboo-card-portal"
 ```
 
+### Publish config file
+```bash
+php artisan vendor:publish --tag=bamboo-config
+```
+
 ## Documentation
 ### Catalog
 ```php
