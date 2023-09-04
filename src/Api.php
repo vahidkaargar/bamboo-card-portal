@@ -26,7 +26,7 @@ class Api
                 "success" => true,
                 "status" => $response->getStatusCode(),
                 "message" => $this->messages($response->getStatusCode()),
-                "data" => $response->collect()->toArray()
+                "body" => $response->collect()->toArray()
             ]);
         }
 
@@ -44,7 +44,7 @@ class Api
             "success" => false,
             "status" => $status,
             "message" => $this->messages($status),
-            "data" => $body
+            "body" => $body
         ]);
     }
 
