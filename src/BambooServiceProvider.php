@@ -16,7 +16,7 @@ class BambooServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../config/bamboo.php' => config_path('bamboo.php'),
-            ], 'config');
+            ], 'bamboo-config');
         }
     }
 
