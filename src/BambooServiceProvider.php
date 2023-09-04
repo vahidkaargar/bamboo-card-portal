@@ -18,6 +18,8 @@ class BambooServiceProvider extends ServiceProvider
                 __DIR__ . '/../config/bamboo.php' => config_path('bamboo.php'),
             ], 'bamboo-config');
         }
+
+        require_once __DIR__ . '/helpers.php';
     }
 
 }
