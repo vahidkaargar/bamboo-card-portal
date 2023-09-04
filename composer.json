@@ -16,9 +16,10 @@
         }
     },
     "minimum-stability": "dev",
-    "require": {
+    "require-dev": {
         "php": ">=7.4",
-        "illuminate/support": "^8.0"
+        "illuminate/support": ">=8.0",
+        "phpunit/phpunit": ">=8"
     },
     "autoload-dev": {
         "psr-4": {
