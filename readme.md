@@ -17,6 +17,23 @@ php artisan vendor:publish --tag=bamboo-config
 ```
 
 ## Documentation
+
+### Initial
+```php
+/*
+ * You have two option to call Bamboo api
+ * First way - use helper
+ */
+$bamboo = bamboo();
+
+
+/*
+ * Second way - call class
+ */
+ use vahidkaargar\BambooCardPortal\Bamboo;
+$bamboo = new Bamboo();
+```
+
 ### Catalog
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
