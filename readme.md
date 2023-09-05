@@ -32,14 +32,13 @@ $bamboo = bamboo();
 /*
  * Second way - call class
  */
- use vahidkaargar\BambooCardPortal\Bamboo;
+use vahidkaargar\BambooCardPortal\Bamboo;
 $bamboo = new Bamboo();
 ```
 
 ### Catalog
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
-
 
 $bamboo = new Bamboo();
 $catalogs = $bamboo->catalogs()->get();
@@ -49,7 +48,6 @@ $catalogs = $bamboo->catalogs()->get();
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
 
-
 $bamboo = new Bamboo();
 $account = $bamboo->account()->get();
 ```
@@ -57,7 +55,6 @@ $account = $bamboo->account()->get();
 ### Order
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
-
 
 $bamboo = (new Bamboo())->orders();
  
@@ -91,9 +88,8 @@ $order = $bamboo->get($requestedId);
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
 
-
 $bamboo = new Bamboo();
-$account = $bamboo->exchange()
+$exchange = $bamboo->exchange()
     ->setBaseCurrency('USD')
     ->setCurrency('EUR')
     ->rate();
@@ -103,12 +99,11 @@ $account = $bamboo->exchange()
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
 
-
 $bamboo = new Bamboo();
 /*
  * get orders between to date e.g. 2022-05-02
  */
-$orders = $bamboo->transactions()
+$transactions = $bamboo->transactions()
     ->setStartDate('2022-05-02')
     ->setEndDate('2022-05-20')
     ->get();
@@ -116,6 +111,8 @@ $orders = $bamboo->transactions()
 
 ### Notification
 ```php
+use vahidkaargar\BambooCardPortal\Bamboo;
+
 $bamboo = new Bamboo();
 
 /*
