@@ -10,9 +10,10 @@ class Api
 {
     public function http()
     {
+        $deployment = 'bamboo.' . (config('bamboo.sandbox_mode') ? 'sandbox' : 'production');
         return Http::acceptJson()
-            ->withBasicAuth(config('bamboo.username'), config('bamboo.password'))
-            ->baseUrl(config('bamboo.api_base_url'));
+            ->baseUrl(config($deployment . '_base_url'))
+            ->withBasicAuth(config($deployment . '_username'), config($deployment . '_password'));
     }
 
     /**
