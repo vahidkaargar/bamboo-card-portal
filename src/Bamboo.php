@@ -41,7 +41,7 @@ class Bamboo implements InterfaceBamboo
         return new Transactions();
     }
 
-    public function notification(): Notification
+    public function notifications(): Notification
     {
         return new Notification();
     }
