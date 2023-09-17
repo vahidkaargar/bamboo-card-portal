@@ -13,6 +13,16 @@ BAMBOO ELECTRONIC CARDS TRADING LLC is one of the leading Digital Prepaid Produc
 composer require "vahidkaargar/bamboo-card-portal"
 ```
 
+### Environment 
+You don't need to publish config with adding these constants to `.env` file 
+```dotenv
+BAMBOO_SANDBOX_USERNAME=
+BAMBOO_SANDBOX_PASSWORD=
+BAMBOO_SANDBOX_MODE=
+BAMBOO_PRODUCTION_USERNAME=
+BAMBOO_PRODUCTION_PASSWORD=
+```
+
 ### Publish config file
 ```bash
 php artisan vendor:publish --tag=bamboo-config
@@ -118,5 +128,5 @@ $bamboo = new Bamboo();
 /*
  * get notification 
  */
-$notification = $bamboo->notification()->get();
+$notification = $bamboo->notifications()->get();
 ```
