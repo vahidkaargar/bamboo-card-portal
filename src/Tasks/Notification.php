@@ -3,12 +3,13 @@
 namespace vahidkaargar\BambooCardPortal\Tasks;
 
 use Illuminate\Support\Collection;
+use vahidkaargar\BambooCardPortal\Bamboo;
 
-class Notification extends Task
+class Notification extends Bamboo
 {
     public function get(): Collection
     {
-        $request = $this->http->get('notification');
-        return $this->api->collect($request);
+        $notification = $this->http->get('notification');
+        return $this->api->collect($notification);
     }
 }

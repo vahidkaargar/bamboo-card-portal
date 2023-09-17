@@ -4,12 +4,13 @@ namespace vahidkaargar\BambooCardPortal\Tasks;
 
 
 use Illuminate\Support\Collection;
+use vahidkaargar\BambooCardPortal\Bamboo;
 
-class Account extends Task
+class Account extends Bamboo
 {
     public function get(): Collection
     {
-        $request = $this->http->get('accounts');
-        return $this->api->collect($request);
+        $accounts = $this->http->get('accounts');
+        return $this->api->collect($accounts);
     }
 }

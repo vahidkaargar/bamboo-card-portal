@@ -3,16 +3,18 @@
 namespace vahidkaargar\BambooCardPortal\Tasks;
 
 use Illuminate\Support\Collection;
+use vahidkaargar\BambooCardPortal\Bamboo;
 
-class Exchange extends Task
+class Exchange extends Bamboo
 {
     private string $baseCurrency;
     private string $currency;
 
     public function rate(): Collection
     {
-        $request = $this->http->get('exchange-rates', ['baseCurrency' => $this->getBaseCurrency(), 'currency' => $this->getCurrency()]);
-        return $this->api->collect($request);
+        $exchange = $this->http->get('exchange-rates', ['baseCurrency' => $this->getBaseCurrency(), 'currency' => $this->getCurrency()]);
+        return $this->api->collect($exchange);
+
     }
 
     public function setBaseCurrency(string $currency): Exchange

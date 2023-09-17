@@ -2,11 +2,13 @@
 
 namespace vahidkaargar\BambooCardPortal\Tasks;
 
-class Catalog extends Task
+use vahidkaargar\BambooCardPortal\Bamboo;
+
+class Catalog extends Bamboo
 {
     public function get()
     {
-        $request = $this->http->get('catalog');
-        return $this->api->collect($request);
+        $catalog = $this->http->get('catalog');
+        return $this->api->collect($catalog);
     }
 }

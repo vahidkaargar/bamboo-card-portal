@@ -4,8 +4,9 @@ namespace vahidkaargar\BambooCardPortal\Tasks;
 
 
 use Illuminate\Support\Collection;
+use vahidkaargar\BambooCardPortal\Bamboo;
 
-class Order extends Task
+class Order extends Bamboo
 {
     private string $startDate;
     private string $endDate;
@@ -16,11 +17,12 @@ class Order extends Task
     public function get(int $id = 0): Collection
     {
         if ($id) {
-            $request = $this->http->get("orders/$id");
+            $orders = $this->http->get("orders/$id");
         } else {
-            $request = $this->http->get('orders', ['startDate' => $this->getStartDate(), 'endDate' => $this->getEndDate()]);
+            $orders = $this->http->get('orders', ['startDate' => $this->getStartDate(), 'endDate' => $this->getEndDate()]);
         }
-        return $this->api->collect($request);
+
+        return $this->api->collect($orders);
     }
 
     public function setStartDate(string $date): Order
@@ -48,12 +50,12 @@ class Order extends Task
 
     public function checkout(): Collection
     {
-        $request = $this->http->post('checkout', [
+        $checkout = $this->http->post('checkout', [
             'RequestId' => $this->getRequestId(),
             'AccountId' => $this->getAccountId(),
             'Products' => $this->getProducts()
         ]);
-        return $this->api->collect($request);
+        return $this->api->collect($checkout);
     }
 
     public function setRequestId(string $value): Order
