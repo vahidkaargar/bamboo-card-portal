@@ -3,9 +3,19 @@
 namespace vahidkaargar\BambooCardPortal;
 
 use vahidkaargar\BambooCardPortal\Tasks\{Account, Catalog, Order, Exchange, Transactions, Notification};
+use Illuminate\Support\Collection;
 
-class Bamboo extends AbstractBamboo
+class Bamboo implements InterfaceBamboo
 {
+    protected Collection $http;
+    protected Api $api;
+
+    public function __construct()
+    {
+        $this->api = new Api();
+        $this->http = $this->api->http();
+    }
+
     public function catalogs(): Catalog
     {
         return new Catalog();
