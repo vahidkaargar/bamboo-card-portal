@@ -24,7 +24,7 @@ return [
      * you can add BAMBOO_PRODUCTION_USERNAME and BAMBOO_PRODUCTION_PASSWORD to env and set value for it
      * otherwise you can add it to default value
      */
-    "production_base_url" => "https://api.bamboocardportal.com", // production
+    "production_base_url" => "https://api.bamboocardportal.com/api/integration/v1.0/", // production
     "production_username" => env('BAMBOO_PRODUCTION_USERNAME', 'default username'),
     "production_password" => env('BAMBOO_PRODUCTION_PASSWORD', 'default password'),
 ];
