@@ -14,5 +14,5 @@ interface InterfaceBamboo
 
     public function transactions();
 
-    public function notification();
+    public function notifications();
 }
