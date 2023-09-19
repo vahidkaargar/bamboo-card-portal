@@ -44,6 +44,17 @@ $bamboo = bamboo();
  */
 use vahidkaargar\BambooCardPortal\Bamboo;
 $bamboo = new Bamboo();
+
+
+/*
+ * Bamboo has optional parameters
+ * if you enter these parameters, it overwrites on configs
+ */
+use vahidkaargar\BambooCardPortal\Bamboo;
+$bamboo = new Bamboo(`username` 'username', `password` 'password', `sandbox` true);
+
+// or use helper
+$bamboo = bamboo(`username` 'username', `password` 'password', `sandbox` false);
 ```
 
 ### Catalog
