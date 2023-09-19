@@ -38,7 +38,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "vahidkaargar\\BambooCardPortal\\BambooServiceProvider"
+        "vahidkaargar\\BambooCardPortal\\ServiceProviders\\BambooServiceProvider"
       ]
     }
   }
