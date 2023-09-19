@@ -2,18 +2,24 @@
 
 namespace vahidkaargar\BambooCardPortal;
 
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Josantonius\HttpStatusCode\HttpStatusCode;
+use Illuminate\Support\Facades\Config;
 
 class Api
 {
-    public function http()
+    public function http(): PendingRequest
     {
-        $deployment = 'bamboo.' . (config('bamboo.sandbox_mode') ? 'sandbox' : 'production');
+        if (is_null(config('bamboo.sandbox_base_url'))) {
+            $configs = require(__DIR__ . '/../config/bamboo.php');
+            Config::set('bamboo', $configs);
+        }
+        $deployment = 'bamboo.' . (\config('bamboo.sandbox_mode') ? 'sandbox' : 'production');
         return Http::acceptJson()
-            ->baseUrl(config($deployment . '_base_url'))
-            ->withBasicAuth(config($deployment . '_username'), config($deployment . '_password'));
+            ->baseUrl(\config($deployment . '_base_url'))
+            ->withBasicAuth(\config($deployment . '_username'), \config($deployment . '_password'));
     }
 
     /**
@@ -31,7 +37,7 @@ class Api
             ]);
         }
 
-        return $this->failed($response->getStatusCode(), $response->json());
+        return $this->failed($response->getStatusCode(), $response->json() ?? []);
     }
 
     /**
@@ -39,7 +45,7 @@ class Api
      * @param null $body
      * @return Collection
      */
-    public function failed(int $status = 400, $body = null): Collection
+    public function failed(int $status = 400, $body = []): Collection
     {
         return collect([
             "success" => false,
