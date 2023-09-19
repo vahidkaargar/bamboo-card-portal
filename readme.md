@@ -49,12 +49,16 @@ $bamboo = new Bamboo();
 /*
  * Bamboo has optional parameters
  * if you enter these parameters, it overwrites on configs
+ * @param string username
+ * @param string password
+ * @param bool sandbox
  */
 use vahidkaargar\BambooCardPortal\Bamboo;
-$bamboo = new Bamboo(`username` 'username', `password` 'password', `sandbox` true);
+$bamboo = new Bamboo(string 'username', string 'password', bool true);
 
 // or use helper
-$bamboo = bamboo(`username` 'username', `password` 'password', `sandbox` false);
+$bamboo = bamboo(string 'username', string 'password', bool false);
+$bamboo->
 ```
 
 ### Catalog
