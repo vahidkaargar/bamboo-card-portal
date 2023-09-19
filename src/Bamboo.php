@@ -8,7 +8,7 @@ use vahidkaargar\BambooCardPortal\Tasks\{Account, Catalogs, Exchange, Notificati
 use vahidkaargar\BambooCardPortal\Traits\{ApiTrait, ConfigTrait};
 
 /**
- *
+ * Bamboo class
  */
 class Bamboo implements BambooInterface
 {
@@ -18,9 +18,6 @@ class Bamboo implements BambooInterface
     private string $username;
     private string $password;
     private bool $sandbox;
-    /**
-     * @var string|\Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|mixed
-     */
     private string $baseUrl;
 
     /**
