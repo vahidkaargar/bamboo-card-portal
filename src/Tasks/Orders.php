@@ -6,7 +6,7 @@ namespace vahidkaargar\BambooCardPortal\Tasks;
 use Illuminate\Support\Collection;
 use vahidkaargar\BambooCardPortal\Bamboo;
 
-class Order extends Bamboo
+class Orders extends Bamboo
 {
     private string $startDate;
     private string $endDate;
@@ -22,10 +22,10 @@ class Order extends Bamboo
             $orders = $this->http->get('orders', ['startDate' => $this->getStartDate(), 'endDate' => $this->getEndDate()]);
         }
 
-        return $this->api->collect($orders);
+        return $this->collect($orders);
     }
 
-    public function setStartDate(string $date): Order
+    public function setStartDate(string $date): Orders
     {
         $this->startDate = $date;
         return $this;
@@ -36,7 +36,7 @@ class Order extends Bamboo
         return $this->startDate;
     }
 
-    public function setEndDate(string $date): Order
+    public function setEndDate(string $date): Orders
     {
         $this->endDate = $date;
         return $this;
@@ -55,10 +55,10 @@ class Order extends Bamboo
             'AccountId' => $this->getAccountId(),
             'Products' => $this->getProducts()
         ]);
-        return $this->api->collect($checkout);
+        return $this->collect($checkout);
     }
 
-    public function setRequestId(string $value): Order
+    public function setRequestId(string $value): Orders
     {
         $this->requestId = $value;
         return $this;
@@ -70,7 +70,7 @@ class Order extends Bamboo
     }
 
 
-    public function setAccountId(int $value): Order
+    public function setAccountId(int $value): Orders
     {
         $this->accountId = $value;
         return $this;
@@ -82,13 +82,19 @@ class Order extends Bamboo
     }
 
 
-    public function setProducts(int $productId, int $quantity, int $value): Order
+    public function setProduct(int $productId, int $quantity, int $value): Orders
     {
         $this->products[] = [
             "ProductId" => $productId,
             "Quantity" => $quantity,
             "Value" => $value,
         ];
+        return $this;
+    }
+
+    public function setProducts(array $products): Orders
+    {
+        $this->products[] = [...$this->getProducts(), ...$products];
         return $this;
     }
 

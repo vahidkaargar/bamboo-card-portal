@@ -13,7 +13,7 @@ class Exchange extends Bamboo
     public function rate(): Collection
     {
         $exchange = $this->http->get('exchange-rates', ['baseCurrency' => $this->getBaseCurrency(), 'currency' => $this->getCurrency()]);
-        return $this->api->collect($exchange);
+        return $this->collect($exchange);
 
     }
 

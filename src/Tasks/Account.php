@@ -11,6 +11,6 @@ class Account extends Bamboo
     public function get(): Collection
     {
         $accounts = $this->http->get('accounts');
-        return $this->api->collect($accounts);
+        return $this->collect($accounts);
     }
 }

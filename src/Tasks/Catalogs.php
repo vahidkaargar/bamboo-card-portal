@@ -2,13 +2,14 @@
 
 namespace vahidkaargar\BambooCardPortal\Tasks;
 
+use Illuminate\Support\Collection;
 use vahidkaargar\BambooCardPortal\Bamboo;
 
-class Catalog extends Bamboo
+class Catalogs extends Bamboo
 {
-    public function get()
+    public function get(): Collection
     {
         $catalog = $this->http->get('catalog');
-        return $this->api->collect($catalog);
+        return $this->collect($catalog);
     }
 }

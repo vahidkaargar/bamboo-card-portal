@@ -12,7 +12,8 @@ class Transactions extends Bamboo
 
     public function get(): Collection
     {
-        return $this->http->get('transactions', ['startDate' => $this->getStartDate(), 'endDate' => $this->getEndDate()]);
+        $transactions = $this->http->get('transactions', ['startDate' => $this->getStartDate(), 'endDate' => $this->getEndDate()]);
+        return $this->collect($transactions);
     }
 
     public function setStartDate(string $date): Transactions
