@@ -1,25 +1,19 @@
 <?php
 
-namespace vahidkaargar\BambooCardPortal;
+namespace vahidkaargar\BambooCardPortal\Traits;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Josantonius\HttpStatusCode\HttpStatusCode;
-use Illuminate\Support\Facades\Config;
 
-class Api
+trait ApiTrait
 {
-    public function http(): PendingRequest
+    public function http(array $configs): PendingRequest
     {
-        if (is_null(config('bamboo.sandbox_base_url'))) {
-            $configs = require(__DIR__ . '/../config/bamboo.php');
-            Config::set('bamboo', $configs);
-        }
-        $deployment = 'bamboo.' . (\config('bamboo.sandbox_mode') ? 'sandbox' : 'production');
         return Http::acceptJson()
-            ->baseUrl(\config($deployment . '_base_url'))
-            ->withBasicAuth(\config($deployment . '_username'), \config($deployment . '_password'));
+            ->baseUrl($configs['baseUrl'])
+            ->withBasicAuth($configs['username'], $configs['password']);
     }
 
     /**
@@ -42,10 +36,10 @@ class Api
 
     /**
      * @param int $status
-     * @param null $body
+     * @param array|null $body
      * @return Collection
      */
-    public function failed(int $status = 400, $body = []): Collection
+    private function failed(int $status = 400, ?array $body = []): Collection
     {
         return collect([
             "success" => false,
@@ -55,7 +49,7 @@ class Api
         ]);
     }
 
-    public function messages($status): string
+    private function messages($status): string
     {
         $httpStatusCode = new HttpStatusCode();
         $messages = $httpStatusCode->getMessages();;
