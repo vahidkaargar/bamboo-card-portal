@@ -1,17 +1,10 @@
 <?php
 
-namespace vahidkaargar\BambooCardPortal\Tests;
+namespace vahidkaargar\BambooCardPortal\Tests\unit;
 
 use Orchestra\Testbench\TestCase;
 use vahidkaargar\BambooCardPortal\Bamboo;
-use vahidkaargar\BambooCardPortal\Tasks\{
-    Catalog,
-    Account,
-    Order,
-    Exchange,
-    Transactions,
-    Notification
-};
+use vahidkaargar\BambooCardPortal\Tasks\{Account, Catalogs, Exchange, Notifications, Orders, Transactions};
 
 class BambooTest extends TestCase
 {
@@ -23,7 +16,7 @@ class BambooTest extends TestCase
 
     public function testCatalogsMethodReturnsCatalogInstance()
     {
-        $this->assertInstanceOf(Catalog::class, $this->bamboo->catalogs());
+        $this->assertInstanceOf(Catalogs::class, $this->bamboo->catalogs());
     }
 
     public function testAccountMethodReturnsAccountInstance()
@@ -33,7 +26,7 @@ class BambooTest extends TestCase
 
     public function testOrdersMethodReturnsOrderInstance()
     {
-        $this->assertInstanceOf(Order::class, $this->bamboo->orders());
+        $this->assertInstanceOf(Orders::class, $this->bamboo->orders());
     }
 
     public function testExchangeMethodReturnsExchangeInstance()
@@ -48,6 +41,6 @@ class BambooTest extends TestCase
 
     public function testNotificationsMethodReturnsNotificationInstance()
     {
-        $this->assertInstanceOf(Notification::class, $this->bamboo->notifications());
+        $this->assertInstanceOf(Notifications::class, $this->bamboo->notifications());
     }
 }
