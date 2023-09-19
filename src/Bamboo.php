@@ -3,11 +3,12 @@
 namespace vahidkaargar\BambooCardPortal;
 
 use vahidkaargar\BambooCardPortal\Tasks\{Account, Catalog, Order, Exchange, Transactions, Notification};
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Collection;
 
 class Bamboo implements InterfaceBamboo
 {
-    protected Collection $http;
+    protected PendingRequest $http;
     protected Api $api;
 
     public function __construct()
