@@ -6,6 +6,9 @@ use Orchestra\Testbench\TestCase;
 use vahidkaargar\BambooCardPortal\Bamboo;
 use vahidkaargar\BambooCardPortal\Tasks\{Account, Catalogs, Exchange, Notifications, Orders, Transactions};
 
+/**
+ * Bamboo class test
+ */
 class BambooTest extends TestCase
 {
     protected function setUp(): void

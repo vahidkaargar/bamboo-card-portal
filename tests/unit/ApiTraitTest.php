@@ -6,14 +6,23 @@ use Illuminate\Support\Collection;
 use Orchestra\Testbench\TestCase;
 use vahidkaargar\BambooCardPortal\Bamboo;
 
+/**
+ * Api trait test
+ */
 class ApiTraitTest extends TestCase
 {
+    /**
+     * @return void
+     */
     protected function setUp(): void
     {
         parent::setUp();
         $this->bamboo = new Bamboo();
     }
 
+    /**
+     * @return void
+     */
     public function testIsApiResponseSuitable()
     {
         $request = $this->bamboo->http([

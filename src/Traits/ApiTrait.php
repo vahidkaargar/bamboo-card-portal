@@ -7,8 +7,15 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Josantonius\HttpStatusCode\HttpStatusCode;
 
+/**
+ * Http preparation
+ */
 trait ApiTrait
 {
+    /**
+     * @param array $configs
+     * @return PendingRequest
+     */
     public function http(array $configs): PendingRequest
     {
         return Http::acceptJson()
@@ -49,6 +56,10 @@ trait ApiTrait
         ]);
     }
 
+    /**
+     * @param $status
+     * @return string
+     */
     private function messages($status): string
     {
         $httpStatusCode = new HttpStatusCode();

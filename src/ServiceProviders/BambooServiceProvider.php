@@ -4,13 +4,22 @@ namespace vahidkaargar\BambooCardPortal\ServiceProviders;
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Bamboo Service Provider
+ */
 class BambooServiceProvider extends ServiceProvider
 {
+    /**
+     * @return void
+     */
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../Configs/bamboo.php', 'bamboo');
     }
 
+    /**
+     * @return void
+     */
     public function boot()
     {
         if ($this->app->runningInConsole()) {

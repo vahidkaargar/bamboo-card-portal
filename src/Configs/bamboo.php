@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Bamboo configs
+ */
 return [
 
     /*
