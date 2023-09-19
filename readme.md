@@ -66,7 +66,6 @@ $bamboo = new Bamboo('username', 'password', true);
 
 // or use helper
 $bamboo = bamboo('username', 'password', false);
-$bamboo->
 ```
 
 ### Catalog
@@ -101,9 +100,22 @@ $bamboo = (new Bamboo())->orders();
  $requestedId = Str::uuid();
  $checkout = $bamboo->setRequestId($requestedId)
     ->setAccountId($accountId)
-    ->setProducts($productId, $quantity, $value)
-    ->setProducts($productId2, $quantity2, $value2)
-    ->setProducts($productId3, $quantity3, $value3)
+    ->setProduct($productId, $quantity, $value)
+    ->setProduct($productId2, $quantity2, $value2)
+    ->setProduct($productId3, $quantity3, $value3)
+    ->checkout();
+    
+/**
+ * You can also set multiple products
+ */
+$checkout = $bamboo->setRequestId($requestedId)
+    ->setAccountId($accountId)
+    ->setProducts([
+        [$productId, $quantity, $value],
+        [$productId2, $quantity2, $value2],
+        [$productId3, $quantity3, $value3],
+    ])
+    ->setProduct($productId4, $quantity4, $value4)
     ->checkout();
  
 /*
