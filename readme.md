@@ -158,3 +158,9 @@ $bamboo = new Bamboo();
  */
 $notification = $bamboo->notifications()->get();
 ```
+
+### Test
+
+```bash
+./vendor/bin/phpunit
+```
