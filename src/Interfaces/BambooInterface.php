@@ -1,8 +1,8 @@
 <?php
 
-namespace vahidkaargar\BambooCardPortal;
+namespace vahidkaargar\BambooCardPortal\Interfaces;
 
-interface InterfaceBamboo
+interface BambooInterface
 {
     public function catalogs();
 
