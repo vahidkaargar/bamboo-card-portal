@@ -1,20 +1,27 @@
 ## Bamboo Card Portal Api
+
 This is a Laravel package for using Bamboo api
 
 ### What is Bamboo
-BAMBOO ELECTRONIC CARDS TRADING LLC is one of the leading Digital Prepaid Products Distributor and Rewards fulfillment agency in the Middle East.
+
+BAMBOO ELECTRONIC CARDS TRADING LLC is one of the leading Digital Prepaid Products Distributor and Rewards fulfillment
+agency in the Middle East.
 
 ### Requirement
+
 1. This is a Laravel package
 2. PHP >= 7.4
 
 ### Installation
+
 ```bash
 composer require "vahidkaargar/bamboo-card-portal"
 ```
 
-### Environment 
-You don't need to publish config with adding these constants to `.env` file 
+### Environment
+
+You don't need to publish config with adding these constants to `.env` file
+
 ```dotenv
 BAMBOO_SANDBOX_USERNAME=
 BAMBOO_SANDBOX_PASSWORD=
@@ -24,6 +31,7 @@ BAMBOO_PRODUCTION_PASSWORD=
 ```
 
 ### Publish config file
+
 ```bash
 php artisan vendor:publish --tag=bamboo-config
 ```
@@ -31,6 +39,7 @@ php artisan vendor:publish --tag=bamboo-config
 ## Documentation
 
 ### Initial
+
 ```php
 /*
  * You have two option to call Bamboo api
@@ -44,9 +53,23 @@ $bamboo = bamboo();
  */
 use vahidkaargar\BambooCardPortal\Bamboo;
 $bamboo = new Bamboo();
+
+
+/*
+ * Bamboo has optional parameters
+ * if you enter these parameters, it overwrites on configs
+ * @param string username
+ * @param string password
+ * @param bool sandbox
+ */
+$bamboo = new Bamboo('username', 'password', true);
+
+// or use helper
+$bamboo = bamboo('username', 'password', false);
 ```
 
 ### Catalog
+
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
 
@@ -55,6 +78,7 @@ $catalogs = $bamboo->catalogs()->get();
 ```
 
 ### Account
+
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
 
@@ -63,6 +87,7 @@ $account = $bamboo->account()->get();
 ```
 
 ### Order
+
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
 
@@ -75,9 +100,22 @@ $bamboo = (new Bamboo())->orders();
  $requestedId = Str::uuid();
  $checkout = $bamboo->setRequestId($requestedId)
     ->setAccountId($accountId)
-    ->setProducts($productId, $quantity, $value)
-    ->setProducts($productId2, $quantity2, $value2)
-    ->setProducts($productId3, $quantity3, $value3)
+    ->setProduct($productId, $quantity, $value)
+    ->setProduct($productId2, $quantity2, $value2)
+    ->setProduct($productId3, $quantity3, $value3)
+    ->checkout();
+    
+/**
+ * You can also set multiple products
+ */
+$checkout = $bamboo->setRequestId($requestedId)
+    ->setAccountId($accountId)
+    ->setProducts([
+        [$productId, $quantity, $value],
+        [$productId2, $quantity2, $value2],
+        [$productId3, $quantity3, $value3],
+    ])
+    ->setProduct($productId4, $quantity4, $value4)
     ->checkout();
  
 /*
@@ -93,8 +131,8 @@ $orders = $bamboo->setStartDate('2022-05-02')
 $order = $bamboo->get($requestedId);
 ```
 
-
 ### Exchange rate
+
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
 
@@ -106,6 +144,7 @@ $exchange = $bamboo->exchange()
 ```
 
 ### Transaction
+
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
 
@@ -120,6 +159,7 @@ $transactions = $bamboo->transactions()
 ```
 
 ### Notification
+
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
 
@@ -129,4 +169,10 @@ $bamboo = new Bamboo();
  * get notification 
  */
 $notification = $bamboo->notifications()->get();
+```
+
+### Test
+
+```bash
+./vendor/bin/phpunit
 ```

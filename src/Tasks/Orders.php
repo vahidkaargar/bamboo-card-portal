@@ -6,14 +6,36 @@ namespace vahidkaargar\BambooCardPortal\Tasks;
 use Illuminate\Support\Collection;
 use vahidkaargar\BambooCardPortal\Bamboo;
 
-class Order extends Bamboo
+/**
+ * Orders class
+ */
+class Orders extends Bamboo
 {
+    /**
+     * @var string
+     */
     private string $startDate;
+    /**
+     * @var string
+     */
     private string $endDate;
+    /**
+     * @var string
+     */
     private string $requestId;
+    /**
+     * @var int
+     */
     private int $accountId;
+    /**
+     * @var array
+     */
     private array $products;
 
+    /**
+     * @param int $id
+     * @return Collection
+     */
     public function get(int $id = 0): Collection
     {
         if ($id) {
@@ -22,32 +44,49 @@ class Order extends Bamboo
             $orders = $this->http->get('orders', ['startDate' => $this->getStartDate(), 'endDate' => $this->getEndDate()]);
         }
 
-        return $this->api->collect($orders);
+        return $this->collect($orders);
     }
 
-    public function setStartDate(string $date): Order
+    /**
+     * @param string $date
+     * @return $this
+     */
+    public function setStartDate(string $date): Orders
     {
         $this->startDate = $date;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     private function getStartDate(): string
     {
         return $this->startDate;
     }
 
-    public function setEndDate(string $date): Order
+    /**
+     * @param string $date
+     * @return $this
+     */
+    public function setEndDate(string $date): Orders
     {
         $this->endDate = $date;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     private function getEndDate(): string
     {
         return $this->endDate;
     }
 
 
+    /**
+     * @return Collection
+     */
     public function checkout(): Collection
     {
         $checkout = $this->http->post('checkout', [
@@ -55,34 +94,54 @@ class Order extends Bamboo
             'AccountId' => $this->getAccountId(),
             'Products' => $this->getProducts()
         ]);
-        return $this->api->collect($checkout);
+        return $this->collect($checkout);
     }
 
-    public function setRequestId(string $value): Order
+    /**
+     * @param string $value
+     * @return $this
+     */
+    public function setRequestId(string $value): Orders
     {
         $this->requestId = $value;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     private function getRequestId(): string
     {
         return $this->requestId;
     }
 
 
-    public function setAccountId(int $value): Order
+    /**
+     * @param int $value
+     * @return $this
+     */
+    public function setAccountId(int $value): Orders
     {
         $this->accountId = $value;
         return $this;
     }
 
+    /**
+     * @return int
+     */
     private function getAccountId(): int
     {
         return $this->accountId;
     }
 
 
-    public function setProducts(int $productId, int $quantity, int $value): Order
+    /**
+     * @param int $productId
+     * @param int $quantity
+     * @param int $value
+     * @return $this
+     */
+    public function setProduct(int $productId, int $quantity, int $value): Orders
     {
         $this->products[] = [
             "ProductId" => $productId,
@@ -92,7 +151,20 @@ class Order extends Bamboo
         return $this;
     }
 
-    private function getProducts(): array
+    /**
+     * @param array $products
+     * @return $this
+     */
+    public function setProducts(array $products): Orders
+    {
+        array_map(fn($product) => $this->setProduct($product['ProductId'], $product['Quantity'], $product['Value']), $products);
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProducts(): array
     {
         return $this->products;
     }

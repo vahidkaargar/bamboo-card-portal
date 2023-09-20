@@ -2,21 +2,20 @@
 
 namespace vahidkaargar\BambooCardPortal\Tasks;
 
-
 use Illuminate\Support\Collection;
 use vahidkaargar\BambooCardPortal\Bamboo;
 
 /**
- * Account information
+ * Catalogs of products
  */
-class Account extends Bamboo
+class Catalogs extends Bamboo
 {
     /**
      * @return Collection
      */
     public function get(): Collection
     {
-        $accounts = $this->http->get('accounts');
-        return $this->collect($accounts);
+        $catalog = $this->http->get('catalog');
+        return $this->collect($catalog);
     }
 }
