@@ -1,6 +1,6 @@
 <?php
 
-namespace vahidkaargar\BambooCardPortal\Tests\unit;
+namespace vahidkaargar\BambooCardPortal\Tests\Unit;
 
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\TestCase;

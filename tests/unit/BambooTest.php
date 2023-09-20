@@ -1,6 +1,6 @@
 <?php
 
-namespace vahidkaargar\BambooCardPortal\Tests\unit;
+namespace vahidkaargar\BambooCardPortal\Tests\Unit;
 
 use Orchestra\Testbench\TestCase;
 use vahidkaargar\BambooCardPortal\Bamboo;
