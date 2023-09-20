@@ -157,7 +157,7 @@ class Orders extends Bamboo
      */
     public function setProducts(array $products): Orders
     {
-        $this->products = [...$this->getProducts(), ...$products];
+        array_map(fn($product) => $this->setProduct($product['ProductId'], $product['Quantity'], $product['Value']), $products);
         return $this;
     }
 
