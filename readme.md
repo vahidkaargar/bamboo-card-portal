@@ -111,9 +111,9 @@ $bamboo = (new Bamboo())->orders();
 $checkout = $bamboo->setRequestId($requestedId)
     ->setAccountId($accountId)
     ->setProducts([
-        [$productId, $quantity, $value],
-        [$productId2, $quantity2, $value2],
-        [$productId3, $quantity3, $value3],
+        ["ProductId" => $productId, "Quantity" => $quantity, "Value" => $value],
+        ["ProductId" => $productId2, "Quantity" => $quantity2, "Value" => $value2],
+        ["ProductId" => $productId3, "Quantity" => $quantity3, "Value" => $value3],
     ])
     ->setProduct($productId4, $quantity4, $value4)
     ->checkout();
