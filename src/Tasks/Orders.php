@@ -164,7 +164,7 @@ class Orders extends Bamboo
     /**
      * @return array
      */
-    private function getProducts(): array
+    public function getProducts(): array
     {
         return $this->products;
     }
