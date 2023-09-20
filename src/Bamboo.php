@@ -31,7 +31,7 @@ class Bamboo implements BambooInterface
         $this->loadConfig();
 
         // sandbox or production
-        $this->sandbox = $sandbox ?? config('bamboo.sandbox_mode');
+        $this->sandbox = ($username and $password) ? $sandbox : config('bamboo.sandbox_mode');
         $deployment = "bamboo." . ($this->sandbox ? 'sandbox' : 'production');
 
         // basic auth
