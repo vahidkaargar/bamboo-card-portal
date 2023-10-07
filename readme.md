@@ -93,21 +93,11 @@ use vahidkaargar\BambooCardPortal\Bamboo;
 
 $bamboo = (new Bamboo())->orders();
  
- /*
-  * checkout and create an order
-  * you can add multiple products
+/*
+ * checkout and create an order
+ * you can add multiple products
  */
- $requestedId = Str::uuid();
- $checkout = $bamboo->setRequestId($requestedId)
-    ->setAccountId($accountId)
-    ->setProduct($productId, $quantity, $value)
-    ->setProduct($productId2, $quantity2, $value2)
-    ->setProduct($productId3, $quantity3, $value3)
-    ->checkout();
-    
-/**
- * You can also set multiple products
- */
+$requestedId = Str::uuid();
 $checkout = $bamboo->setRequestId($requestedId)
     ->setAccountId($accountId)
     ->setProducts([
