@@ -60,7 +60,7 @@ class Orders extends Bamboo
     /**
      * @return string
      */
-    private function getStartDate(): string
+    public function getStartDate(): string
     {
         return $this->startDate;
     }
@@ -78,7 +78,7 @@ class Orders extends Bamboo
     /**
      * @return string
      */
-    private function getEndDate(): string
+    public function getEndDate(): string
     {
         return $this->endDate;
     }
@@ -110,7 +110,7 @@ class Orders extends Bamboo
     /**
      * @return string
      */
-    private function getRequestId(): string
+    public function getRequestId(): string
     {
         return $this->requestId;
     }
