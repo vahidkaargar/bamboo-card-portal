@@ -19,6 +19,7 @@ trait ApiTrait
     public function http(array $configs): PendingRequest
     {
         return Http::acceptJson()
+            ->timeout(180)
             ->baseUrl($configs['baseUrl'])
             ->withBasicAuth($configs['username'], $configs['password']);
     }

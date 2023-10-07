@@ -29,4 +29,9 @@ return [
     "production_base_url" => "https://api.bamboocardportal.com/api/integration/v1.0/", // production
     "production_username" => env('BAMBOO_PRODUCTION_USERNAME', 'default username'),
     "production_password" => env('BAMBOO_PRODUCTION_PASSWORD', 'default password'),
+
+    /*
+     * Curl timeout
+     */
+    "connection_timeout" => env('BAMBOO_CONNECTION_TIMEOUT', 160),
 ];
