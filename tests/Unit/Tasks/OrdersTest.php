@@ -2,6 +2,7 @@
 
 namespace vahidkaargar\BambooCardPortal\Tests\Unit\Tasks;
 
+use Illuminate\Support\Str;
 use Orchestra\Testbench\TestCase;
 use vahidkaargar\BambooCardPortal\Bamboo;
 
@@ -26,6 +27,15 @@ class OrdersTest extends TestCase
         ];
     }
 
+    public function testIsSetAccountIdWorks()
+    {
+        $requestIdShouldBe = Str::uuid();
+        $getRequestId = $this->bamboo->orders()
+            ->setRequestId($requestIdShouldBe)
+            ->getRequestId();
+        $this->assertEquals($getRequestId, $requestIdShouldBe);
+    }
+
     /**
      * @return void
      */
@@ -38,5 +48,23 @@ class OrdersTest extends TestCase
             ->setProduct(...array_values($this->product))
             ->getProducts();
         $this->assertEquals($getProducts, $getProductsShouldBe);
+    }
+
+    public function testIsSetStartDateWorks()
+    {
+        $dateShouldBe = '2022-10-09';
+        $getStartDate = $this->bamboo->orders()
+            ->setStartDate($dateShouldBe)
+            ->getStartDate();
+        $this->assertEquals($dateShouldBe, $getStartDate);
+    }
+
+    public function testIsSetEndDateWorks()
+    {
+        $dateShouldBe = '2022-10-09';
+        $getEndDate = $this->bamboo->orders()
+            ->setEndDate($dateShouldBe)
+            ->getEndDate();
+        $this->assertEquals($dateShouldBe, $getEndDate);
     }
 }
