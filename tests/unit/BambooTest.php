@@ -4,7 +4,7 @@ namespace vahidkaargar\BambooCardPortal\Tests\Unit;
 
 use Orchestra\Testbench\TestCase;
 use vahidkaargar\BambooCardPortal\Bamboo;
-use vahidkaargar\BambooCardPortal\Tasks\{Account, Catalogs, Exchange, Notifications, Orders, Transactions};
+use vahidkaargar\BambooCardPortal\Tasks\{Accounts, Catalogs, Exchange, Notifications, Orders, Transactions};
 
 /**
  * Bamboo class test
@@ -33,7 +33,7 @@ class BambooTest extends TestCase
      */
     public function testAccountMethodReturnsAccountInstance()
     {
-        $this->assertInstanceOf(Account::class, $this->bamboo->account());
+        $this->assertInstanceOf(Accounts::class, $this->bamboo->account());
     }
 
     /**

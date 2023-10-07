@@ -9,7 +9,7 @@ use vahidkaargar\BambooCardPortal\Bamboo;
 /**
  * Account information
  */
-class Account extends Bamboo
+class Accounts extends Bamboo
 {
     /**
      * @return Collection

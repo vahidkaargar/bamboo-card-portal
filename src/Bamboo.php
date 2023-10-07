@@ -4,7 +4,7 @@ namespace vahidkaargar\BambooCardPortal;
 
 use Illuminate\Http\Client\PendingRequest;
 use vahidkaargar\BambooCardPortal\Interfaces\{BambooInterface};
-use vahidkaargar\BambooCardPortal\Tasks\{Account, Catalogs, Exchange, Notifications, Orders, Transactions};
+use vahidkaargar\BambooCardPortal\Tasks\{Accounts, Catalogs, Exchange, Notifications, Orders, Transactions};
 use vahidkaargar\BambooCardPortal\Traits\{ApiTrait, ConfigTrait};
 
 /**
@@ -63,11 +63,11 @@ class Bamboo implements BambooInterface
     }
 
     /**
-     * @return Account
+     * @return Accounts
      */
-    public function account(): Account
+    public function account(): Accounts
     {
-        return new Account();
+        return new Accounts();
     }
 
     /**
