@@ -35,8 +35,13 @@ class Bamboo implements BambooInterface
         $deployment = "bamboo." . ($this->sandbox ? 'sandbox' : 'production');
 
         // basic auth
-        $this->username = $username ?? config("{$deployment}_username");
-        $this->password = $password ?? config("{$deployment}_password");
+        if ($username and $password) {
+            $this->username = $username;
+            $this->password = $password;
+        } else {
+            $this->username = config("{$deployment}_username");
+            $this->password = config("{$deployment}_password");
+        }
 
         // sandbox/production base url address
         $this->baseUrl = config("{$deployment}_base_url");
