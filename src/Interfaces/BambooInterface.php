@@ -15,7 +15,7 @@ interface BambooInterface
     /**
      * @return mixed
      */
-    public function account();
+    public function accounts();
 
     /**
      * @return mixed

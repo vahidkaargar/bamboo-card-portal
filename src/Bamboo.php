@@ -65,7 +65,7 @@ class Bamboo implements BambooInterface
     /**
      * @return Accounts
      */
-    public function account(): Accounts
+    public function accounts(): Accounts
     {
         return new Accounts();
     }

@@ -83,7 +83,7 @@ $catalogs = $bamboo->catalogs()->get();
 use vahidkaargar\BambooCardPortal\Bamboo;
 
 $bamboo = new Bamboo();
-$account = $bamboo->account()->get();
+$account = $bamboo->accounts()->get();
 ```
 
 ### Order

@@ -33,7 +33,7 @@ class BambooTest extends TestCase
      */
     public function testAccountMethodReturnsAccountInstance()
     {
-        $this->assertInstanceOf(Accounts::class, $this->bamboo->account());
+        $this->assertInstanceOf(Accounts::class, $this->bamboo->accounts());
     }
 
     /**
