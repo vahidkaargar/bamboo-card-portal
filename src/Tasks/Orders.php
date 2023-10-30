@@ -33,10 +33,10 @@ class Orders extends Bamboo
     private array $products;
 
     /**
-     * @param int $id
+     * @param string $id
      * @return Collection
      */
-    public function get(int $id = 0): Collection
+    public function get(string $id = ''): Collection
     {
         if ($id) {
             $orders = $this->http->get("orders/$id");
