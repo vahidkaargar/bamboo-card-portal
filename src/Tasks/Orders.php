@@ -89,7 +89,7 @@ class Orders extends Bamboo
      */
     public function checkout(): Collection
     {
-        $checkout = $this->http->post('checkout', [
+        $checkout = $this->http->post('orders/checkout', [
             'RequestId' => $this->getRequestId(),
             'AccountId' => $this->getAccountId(),
             'Products' => $this->getProducts()
