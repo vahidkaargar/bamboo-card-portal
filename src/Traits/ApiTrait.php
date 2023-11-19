@@ -35,7 +35,7 @@ trait ApiTrait
                 "success" => true,
                 "status" => $response->getStatusCode(),
                 "message" => $this->messages($response->getStatusCode()),
-                "body" => $response->collect()->toArray()
+                "body" => $response->collect()
             ]);
         }
 

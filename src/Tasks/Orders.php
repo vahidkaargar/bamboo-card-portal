@@ -94,7 +94,7 @@ class Orders extends Bamboo
             'AccountId' => $this->getAccountId(),
             'Products' => $this->getProducts()
         ]);
-        return $this->collect([$checkout]);
+        return $this->collect($checkout);
     }
 
     /**
