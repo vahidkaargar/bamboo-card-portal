@@ -62,7 +62,7 @@ trait ApiTrait
     private function messages($status): string
     {
         $httpStatusCode = new HttpStatusCode();
-        $messages = $httpStatusCode->getMessages();;
+        $messages = $httpStatusCode->getMessages();
 
         return $messages[$status] ?? 'N/A';
     }
