@@ -7,9 +7,6 @@ use vahidkaargar\BambooCardPortal\Interfaces\{BambooInterface};
 use vahidkaargar\BambooCardPortal\Tasks\{Accounts, Catalogs, Exchange, Notifications, Orders, Transactions};
 use vahidkaargar\BambooCardPortal\Traits\{ApiTrait, ConfigTrait};
 
-/**
- * Bamboo class
- */
 class Bamboo implements BambooInterface
 {
     use ApiTrait, ConfigTrait;
@@ -44,7 +41,7 @@ class Bamboo implements BambooInterface
         }
 
         // sandbox/production base url address
-        $this->baseUrl = config("{$deployment}_base_url");
+        $this->baseUrl = !empty($this->baseUrl) ? $this->baseUrl : config("{$deployment}_base_url");
 
         // create PendingRequest
         $this->http = $this->http([
@@ -52,6 +49,21 @@ class Bamboo implements BambooInterface
             'password' => $this->password,
             'baseUrl' => $this->baseUrl,
         ]);
+    }
+
+    /**
+     * @return Bamboo
+     */
+    public function version2(): Bamboo
+    {
+        $this->baseUrl = config("production_v2_base_url");
+
+        $this->http = $this->http([
+            'username' => $this->username,
+            'password' => $this->password,
+            'baseUrl' => $this->baseUrl,
+        ]);
+        return $this;
     }
 
     /**
