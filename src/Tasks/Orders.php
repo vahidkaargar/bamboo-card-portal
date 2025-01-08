@@ -2,13 +2,9 @@
 
 namespace vahidkaargar\BambooCardPortal\Tasks;
 
-
 use Illuminate\Support\Collection;
 use vahidkaargar\BambooCardPortal\Bamboo;
 
-/**
- * Orders class
- */
 class Orders extends Bamboo
 {
     /**
@@ -83,7 +79,6 @@ class Orders extends Bamboo
         return $this->endDate;
     }
 
-
     /**
      * @return Collection
      */
@@ -115,7 +110,6 @@ class Orders extends Bamboo
         return $this->requestId;
     }
 
-
     /**
      * @param int $value
      * @return $this
@@ -133,7 +127,6 @@ class Orders extends Bamboo
     {
         return $this->accountId;
     }
-
 
     /**
      * @param int $productId

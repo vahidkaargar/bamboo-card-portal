@@ -28,6 +28,8 @@ BAMBOO_SANDBOX_PASSWORD=
 BAMBOO_SANDBOX_MODE=
 BAMBOO_PRODUCTION_USERNAME=
 BAMBOO_PRODUCTION_PASSWORD=
+# In seconds
+BAMBOO_CONNECTION_TIMEOUT=360
 ```
 
 ### Publish config file
@@ -69,12 +71,27 @@ $bamboo = bamboo('username', 'password', false);
 ```
 
 ### Catalog
-
+Catalogs have 2 version of endpoint
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
 
 $bamboo = new Bamboo();
+
+// Version 1
 $catalogs = $bamboo->catalogs()->get();
+
+// Version 2
+$catalogs = $bamboo->catalogs()
+    ->setVersion(2)
+    ->setName('playstation germany')
+    ->setProductId(114111)
+    ->setBrandId(100)
+    ->setCountryCode('US')
+    ->setCurrencyCode('USD')
+    ->setModifiedDate('2022-08-21')
+    ->setPageIndex(0)
+    ->setPageSize(150)
+    ->get();
 ```
 
 ### Account
@@ -149,16 +166,26 @@ $transactions = $bamboo->transactions()
 ```
 
 ### Notification
-
+For create a notification listener:
+- You must set a callback URL address from your website
+- You must set a secret key for passing the right notifications
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
 
 $bamboo = new Bamboo();
 
 /*
- * get notification 
+ * get notification that you created
  */
 $notification = $bamboo->notifications()->get();
+
+/*
+ * create notification listener
+ */
+$notification = $bamboo->notifications()
+    ->setNotificationUrl('https://your-website.com/notification-listener')
+    ->setSecretKey('your-secret-key')
+    ->create();
 ```
 
 ### Test
