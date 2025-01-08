@@ -5,9 +5,6 @@ namespace vahidkaargar\BambooCardPortal\Tasks;
 use Illuminate\Support\Collection;
 use vahidkaargar\BambooCardPortal\Bamboo;
 
-/**
- * Transactions class
- */
 class Transactions extends Bamboo
 {
     /**
