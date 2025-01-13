@@ -8,14 +8,14 @@ use vahidkaargar\BambooCardPortal\Bamboo;
 class Catalogs extends Bamboo
 {
     private int $version = 1;
-    private string $currencyCode;
-    private string $countryCode;
-    private string $name;
-    private string $modifiedDate;
-    private string $targetCurrency;
+    private string $currencyCode = '';
+    private string $countryCode = '';
+    private string $name = '';
+    private string $modifiedDate = '';
+    private string $targetCurrency = '';
     private int $productId;
-    private int $pageSize;
-    private int $pageIndex;
+    private int $pageSize = 100;
+    private int $pageIndex = 0;
     private int $brandId;
 
     /**
@@ -25,7 +25,17 @@ class Catalogs extends Bamboo
     {
         switch ($this->getVersion()) {
             case 2:
-                $catalog = $this->version2()->http->get('catalog');
+                $catalog = $this->version2()->http->get('catalog', [
+                    'CurrencyCode' => $this->getCurrencyCode(),
+                    'CountryCode' => $this->getCountryCode(),
+                    'Name' => $this->getName(),
+                    'ModifiedDate' => $this->getModifiedDate(),
+                    'ProductId' => $this->getProductId() ?? '',
+                    'PageSize' => $this->getPageSize(),
+                    'PageIndex' => $this->getPageIndex(),
+                    'BrandId' => $this->getBrandId() ?? '',
+                    'TargetCurrency' => $this->getTargetCurrency(),
+                ]);
                 break;
             case 1:
             default:
