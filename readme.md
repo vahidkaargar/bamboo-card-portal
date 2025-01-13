@@ -1,26 +1,46 @@
-## Bamboo Card Portal Api
+## Bamboo Card Portal API for Laravel
 
-This is a Laravel package for using Bamboo api
+**Bamboo Card Portal API** is a Laravel package that offers seamless integration with the Bamboo API. Bamboo is a trusted provider of digital prepaid products and reward fulfillment services, making it a valuable solution for businesses operating in the Middle East.
 
-### What is Bamboo
 
-BAMBOO ELECTRONIC CARDS TRADING LLC is one of the leading Digital Prepaid Products Distributor and Rewards fulfillment
-agency in the Middle East.
+## Table of Contents
 
-### Requirement
+- [About Bamboo](#about-bamboo)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+    - [Using the Helper Function](#1-using-the-helper-function)
+    - [Using the Bamboo Class Directly](#2-using-the-bamboo-class-directly)
+    - [Catalogs](#catalogs)
+    - [Account](#account)
+    - [Order](#order)
+    - [Exchange rate](#exchange-rate)
+    - [Transaction](#transaction)
+    - [Notification](#notification)
+    - [Test](#test)
+  
 
-1. This is a Laravel package
-2. PHP >= 7.4
+
+### About Bamboo
+
+BAMBOO ELECTRONIC CARDS TRADING LLC is a leading distributor of digital prepaid products and a recognized rewards fulfillment agency. This package simplifies the interaction with their platform, enabling developers to manage and distribute digital products effectively.
+
+### Requirements
+
+1. Laravel Framework: 8.x or higher
+2. PHP: 7.4 or higher
+3. Composer: Latest version
 
 ### Installation
-
+To install the Bamboo Card Portal API package, use the following Composer command:
 ```bash
 composer require "vahidkaargar/bamboo-card-portal"
 ```
 
-### Environment
+### configuration
 
-You don't need to publish config with adding these constants to `.env` file
+After installation, configure the package by setting the following environment variables in your Laravel project's `.env` file:
 
 ```dotenv
 BAMBOO_SANDBOX_USERNAME=
@@ -33,45 +53,30 @@ BAMBOO_CONNECTION_TIMEOUT=360
 ```
 
 ### Publish config file
-
+This will generate a configuration file at `config/bamboo.php`, where you can further customize the settings. (Like Sandbox etc.)
 ```bash
 php artisan vendor:publish --tag=bamboo-config
 ```
 
-## Documentation
+### Usage
 
-### Initial
+There are two primary ways to use this package:
 
+#### 1. Using the Helper Function
 ```php
-/*
- * You have two option to call Bamboo api
- * First way - use helper
- */
 $bamboo = bamboo();
-
-
-/*
- * Second way - call class
- */
-use vahidkaargar\BambooCardPortal\Bamboo;
-$bamboo = new Bamboo();
-
-
-/*
- * Bamboo has optional parameters
- * if you enter these parameters, it overwrites on configs
- * @param string username
- * @param string password
- * @param bool sandbox
- */
-$bamboo = new Bamboo('username', 'password', true);
-
-// or use helper
 $bamboo = bamboo('username', 'password', false);
 ```
 
-### Catalog
-Catalogs have 2 version of endpoint
+#### 2. Using the Bamboo Class Directly
+```php
+use vahidkaargar\BambooCardPortal\Bamboo;
+$bamboo = new Bamboo();
+$bamboo = new Bamboo('username', 'password', true);
+```
+
+### Catalogs
+Catalogs have two versions
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
 
@@ -89,8 +94,8 @@ $catalogs = $bamboo->catalogs()
     ->setCountryCode('US')
     ->setCurrencyCode('USD')
     ->setModifiedDate('2022-08-21')
-    ->setPageIndex(0)
-    ->setPageSize(150)
+    ->setPageIndex(default: 0)
+    ->setPageSize(default: 150)
     ->get();
 ```
 
