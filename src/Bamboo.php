@@ -16,6 +16,7 @@ class Bamboo implements BambooInterface
     private string $password;
     private bool $sandbox;
     private string $baseUrl;
+    private string $deployment;
 
     /**
      * @param string $username
@@ -29,19 +30,19 @@ class Bamboo implements BambooInterface
 
         // sandbox or production
         $this->sandbox = ($username and $password) ? $sandbox : config('bamboo.sandbox_mode');
-        $deployment = "bamboo." . ($this->sandbox ? 'sandbox' : 'production');
+        $this->deployment = "bamboo." . ($this->sandbox ? 'sandbox' : 'production');
 
         // basic auth
         if ($username and $password) {
             $this->username = $username;
             $this->password = $password;
         } else {
-            $this->username = config("{$deployment}_username");
-            $this->password = config("{$deployment}_password");
+            $this->username = config("{$this->deployment}_username");
+            $this->password = config("{$this->deployment}_password");
         }
 
         // sandbox/production base url address
-        $this->baseUrl = !empty($this->baseUrl) ? $this->baseUrl : config("{$deployment}_base_url");
+        $this->baseUrl = !empty($this->baseUrl) ? $this->baseUrl : config("{$this->deployment}_base_url");
 
         // create PendingRequest
         $this->http = $this->http([
@@ -56,7 +57,7 @@ class Bamboo implements BambooInterface
      */
     public function version2(): Bamboo
     {
-        $this->baseUrl = config("production_v2_base_url");
+        $this->baseUrl = config("{$this->deployment}_v2_base_url");
 
         $this->http = $this->http([
             'username' => $this->username,
