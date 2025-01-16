@@ -3,16 +3,19 @@
 namespace vahidkaargar\BambooCardPortal\Tasks;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Traits\Conditionable;
 use vahidkaargar\BambooCardPortal\Bamboo;
 
 class Catalogs extends Bamboo
 {
+    use Conditionable;
+
     private int $version = 1;
-    private string $currencyCode = '';
-    private string $countryCode = '';
-    private string $name = '';
-    private string $modifiedDate = '';
-    private string $targetCurrency = '';
+    private string $currencyCode;
+    private string $countryCode;
+    private string $name;
+    private string $modifiedDate;
+    private string $targetCurrency;
     private int $productId;
     private int $pageSize = 100;
     private int $pageIndex = 0;
@@ -25,23 +28,45 @@ class Catalogs extends Bamboo
     {
         switch ($this->getVersion()) {
             case 2:
-                $catalog = $this->version2()->http->get('catalog', [
-                    'CurrencyCode' => $this->getCurrencyCode(),
-                    'CountryCode' => $this->getCountryCode(),
-                    'Name' => $this->getName(),
-                    'ModifiedDate' => $this->getModifiedDate(),
-                    'ProductId' => $this->getProductId() ?? '',
-                    'PageSize' => $this->getPageSize(),
-                    'PageIndex' => $this->getPageIndex(),
-                    'BrandId' => $this->getBrandId() ?? '',
-                    'TargetCurrency' => $this->getTargetCurrency(),
-                ]);
+                $catalog = $this->version2()->http->get('catalog', $this->payload());
                 break;
             case 1:
             default:
                 $catalog = $this->http->get('catalog');
         }
         return $this->collect($catalog);
+    }
+
+    /**
+     * @return array
+     */
+    public function payload(): array
+    {
+        return Collection::make()
+            ->put('PageSize', $this->getPageSize())
+            ->put('PageIndex', $this->getPageIndex())
+            ->when(filled($this->getCurrencyCode()), function ($collection) {
+                return $collection->put('currencyCode', $this->getCurrencyCode());
+            })
+            ->when(filled($this->getCountryCode()), function ($collection) {
+                return $collection->put('CountryCode', $this->getCountryCode());
+            })
+            ->when(filled($this->getName()), function ($collection) {
+                return $collection->put('Name', $this->getName());
+            })
+            ->when(filled($this->getModifiedDate()), function ($collection) {
+                return $collection->put('ModifiedDate', $this->getModifiedDate());
+            })
+            ->when(filled($this->getProductId()), function ($collection) {
+                return $collection->put('ProductId', $this->getProductId());
+            })
+            ->when(filled($this->getBrandId()), function ($collection) {
+                return $collection->put('BrandId', $this->getBrandId());
+            })
+            ->when(filled($this->getTargetCurrency()), function ($collection) {
+                return $collection->put('TargetCurrency', $this->getTargetCurrency());
+            })
+            ->toArray();
     }
 
     /**
@@ -182,7 +207,7 @@ class Catalogs extends Bamboo
      * @param int $pageSize
      * @return Catalogs
      */
-    public function setPageSize(int $pageSize): Catalogs
+    public function setPageSize(int $pageSize = 100): Catalogs
     {
         $this->pageSize = $pageSize;
         return $this;
@@ -200,7 +225,7 @@ class Catalogs extends Bamboo
      * @param int $pageIndex
      * @return Catalogs
      */
-    public function setPageIndex(int $pageIndex): Catalogs
+    public function setPageIndex(int $pageIndex = 0): Catalogs
     {
         $this->pageIndex = $pageIndex;
         return $this;
