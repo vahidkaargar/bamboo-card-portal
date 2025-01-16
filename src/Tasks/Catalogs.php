@@ -20,6 +20,7 @@ class Catalogs extends Bamboo
     private int $pageSize = 100;
     private int $pageIndex = 0;
     private int $brandId;
+    private array $payload = [];
 
     /**
      * @return Collection
@@ -28,45 +29,13 @@ class Catalogs extends Bamboo
     {
         switch ($this->getVersion()) {
             case 2:
-                $catalog = $this->version2()->http->get('catalog', $this->payload());
+                $catalog = $this->version2()->http->get('catalog', $this->payload);
                 break;
             case 1:
             default:
                 $catalog = $this->http->get('catalog');
         }
         return $this->collect($catalog);
-    }
-
-    /**
-     * @return array
-     */
-    public function payload(): array
-    {
-        return Collection::make()
-            ->put('PageSize', $this->getPageSize())
-            ->put('PageIndex', $this->getPageIndex())
-            ->when(filled($this->getCurrencyCode()), function ($collection) {
-                return $collection->put('currencyCode', $this->getCurrencyCode());
-            })
-            ->when(filled($this->getCountryCode()), function ($collection) {
-                return $collection->put('CountryCode', $this->getCountryCode());
-            })
-            ->when(filled($this->getName()), function ($collection) {
-                return $collection->put('Name', $this->getName());
-            })
-            ->when(filled($this->getModifiedDate()), function ($collection) {
-                return $collection->put('ModifiedDate', $this->getModifiedDate());
-            })
-            ->when(filled($this->getProductId()), function ($collection) {
-                return $collection->put('ProductId', $this->getProductId());
-            })
-            ->when(filled($this->getBrandId()), function ($collection) {
-                return $collection->put('BrandId', $this->getBrandId());
-            })
-            ->when(filled($this->getTargetCurrency()), function ($collection) {
-                return $collection->put('TargetCurrency', $this->getTargetCurrency());
-            })
-            ->toArray();
     }
 
     /**
@@ -101,6 +70,7 @@ class Catalogs extends Bamboo
      */
     public function setCurrencyCode(string $currencyCode): Catalogs
     {
+        $this->payload['CurrencyCode'] = $currencyCode;
         $this->currencyCode = $currencyCode;
         return $this;
     }
@@ -119,6 +89,7 @@ class Catalogs extends Bamboo
      */
     public function setCountryCode(string $countryCode): Catalogs
     {
+        $this->payload['CountryCode'] = $countryCode;
         $this->countryCode = $countryCode;
         return $this;
     }
@@ -137,6 +108,7 @@ class Catalogs extends Bamboo
      */
     public function setName(string $name): Catalogs
     {
+        $this->payload['Name'] = $name;
         $this->name = $name;
         return $this;
     }
@@ -155,6 +127,7 @@ class Catalogs extends Bamboo
      */
     public function setModifiedDate(string $modifiedDate): Catalogs
     {
+        $this->payload['ModifiedDate'] = $modifiedDate;
         $this->modifiedDate = $modifiedDate;
         return $this;
     }
@@ -173,6 +146,7 @@ class Catalogs extends Bamboo
      */
     public function setTargetCurrency(string $targetCurrency): Catalogs
     {
+        $this->payload['TargetCurrency'] = $targetCurrency;
         $this->targetCurrency = $targetCurrency;
         return $this;
     }
@@ -191,6 +165,7 @@ class Catalogs extends Bamboo
      */
     public function setProductId(int $productId): Catalogs
     {
+        $this->payload['ProductId'] = $productId;
         $this->productId = $productId;
         return $this;
     }
@@ -209,6 +184,7 @@ class Catalogs extends Bamboo
      */
     public function setPageSize(int $pageSize = 100): Catalogs
     {
+        $this->payload['PageSize'] = $pageSize;
         $this->pageSize = $pageSize;
         return $this;
     }
@@ -227,6 +203,7 @@ class Catalogs extends Bamboo
      */
     public function setPageIndex(int $pageIndex = 0): Catalogs
     {
+        $this->payload['PageIndex'] = $pageIndex;
         $this->pageIndex = $pageIndex;
         return $this;
     }
@@ -245,6 +222,7 @@ class Catalogs extends Bamboo
      */
     public function setBrandId(int $brandId): Catalogs
     {
+        $this->payload['BrandId'] = $brandId;
         $this->brandId = $brandId;
         return $this;
     }
