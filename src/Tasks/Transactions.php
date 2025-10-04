@@ -5,6 +5,7 @@ namespace vahidkaargar\BambooCardPortal\Tasks;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Collection;
 use vahidkaargar\BambooCardPortal\Bamboo;
+use vahidkaargar\BambooCardPortal\Services\CacheService;
 
 class Transactions extends Bamboo
 {
@@ -18,13 +19,31 @@ class Transactions extends Bamboo
     private string $endDate;
 
     /**
+     * @var CacheService|null
+     */
+    protected ?CacheService $cacheService;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->cacheService = app(CacheService::class);
+    }
+
+    /**
      * @return Collection
      * @throws ConnectionException
      */
     public function get(): Collection
     {
-        $transactions = $this->http->get('transactions', ['startDate' => $this->getStartDate(), 'endDate' => $this->getEndDate()]);
-        return $this->collect($transactions);
+        $cacheKey = 'transactions_' . $this->getStartDate() . '_' . $this->getEndDate();
+        
+        return $this->cacheService->remember($cacheKey, function () {
+            $transactions = $this->http->get('transactions', ['startDate' => $this->getStartDate(), 'endDate' => $this->getEndDate()]);
+            return $this->collect($transactions);
+        });
     }
 
     /**
