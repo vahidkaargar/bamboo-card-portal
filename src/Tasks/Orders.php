@@ -2,6 +2,7 @@
 
 namespace vahidkaargar\BambooCardPortal\Tasks;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Collection;
 use vahidkaargar\BambooCardPortal\Bamboo;
 
@@ -31,16 +32,21 @@ class Orders extends Bamboo
     /**
      * @param string $id
      * @return Collection
+     * @throws ConnectionException
      */
     public function get(string $id = ''): Collection
     {
-        if ($id) {
-            $orders = $this->http->get("orders/$id");
-        } else {
-            $orders = $this->http->get('orders', ['startDate' => $this->getStartDate(), 'endDate' => $this->getEndDate()]);
-        }
+        $cacheKey = $id ? "orders.{$id}" : "orders.{$this->getStartDate()}.{$this->getEndDate()}";
+        
+        return $this->cachedRequest($cacheKey, function () use ($id) {
+            if ($id) {
+                $orders = $this->http->get("orders/$id");
+            } else {
+                $orders = $this->http->get('orders', ['startDate' => $this->getStartDate(), 'endDate' => $this->getEndDate()]);
+            }
 
-        return $this->collect($orders);
+            return $this->collect($orders);
+        });
     }
 
     /**
@@ -81,6 +87,7 @@ class Orders extends Bamboo
 
     /**
      * @return Collection
+     * @throws ConnectionException
      */
     public function checkout(): Collection
     {

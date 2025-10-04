@@ -2,6 +2,7 @@
 
 namespace vahidkaargar\BambooCardPortal\Tasks;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Collection;
 use vahidkaargar\BambooCardPortal\Bamboo;
 
@@ -18,6 +19,7 @@ class Notifications extends Bamboo
 
     /**
      * @return Collection
+     * @throws ConnectionException
      */
     public function get(): Collection
     {
@@ -27,6 +29,7 @@ class Notifications extends Bamboo
 
     /**
      * @return Collection
+     * @throws ConnectionException
      */
     public function create(): Collection
     {
