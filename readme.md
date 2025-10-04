@@ -47,7 +47,7 @@ A professional Laravel package for seamless integration with the Bamboo Card Por
 ## Requirements
 
 - PHP >= 8.2
-- Laravel 5.x, 6.x, 7.x, 8.x, 9.x, 10.x, 11.x, or 12.x
+- Laravel 8.x, 9.x, 10.x, 11.x, or 12.x
 
 ## Installation
 
