@@ -37,11 +37,12 @@ A professional Laravel package for seamless integration with the Bamboo Card Por
 
 - **Easy Integration**: Simple API for interacting with Bamboo Card Portal
 - **Exception Handling**: Comprehensive exception layer with specific exception types
-- **Caching**: Optional caching with configurable drivers and TTL
+- **Intelligent Caching**: Automatic caching for all API endpoints with smart cache keys
 - **Facade Support**: Laravel facade for easy access
 - **Comprehensive Testing**: Full test suite with unit and integration tests
 - **Configuration**: Flexible configuration with environment variables
 - **Security**: Built-in authentication and validation
+- **Performance**: Optimized with intelligent caching to reduce API calls
 - **Laravel 12 Compatible**: Full support for Laravel 5.x through 12.x
 
 ## Requirements
@@ -164,17 +165,25 @@ try {
 
 ### Caching
 
-The package includes optional caching functionality:
+The package includes intelligent caching functionality for all API endpoints:
 
 ```php
-// Cache is enabled by default
+// Cache is enabled by default for all endpoints
 $orders = $bamboo->orders()->get(); // This will be cached
+$catalogs = $bamboo->catalogs()->get(); // This will be cached
+$accounts = $bamboo->accounts()->get(); // This will be cached
+$transactions = $bamboo->transactions()->get(); // This will be cached
+$exchange = $bamboo->exchange()->rate(); // This will be cached
 
 // Disable caching in config
 // BAMBOO_CACHE_ENABLED=false
 
 // Use different cache driver
 // BAMBOO_CACHE_DRIVER=redis
+
+// Cache keys are automatically generated based on parameters
+$catalogs->setCurrencyCode('USD')->setCountryCode('US')->get(); // Unique cache key
+$transactions->setStartDate('2023-01-01')->setEndDate('2023-01-31')->get(); // Unique cache key
 ```
 
 ### Configuration Options
@@ -291,12 +300,65 @@ The package includes comprehensive tests for:
 
 ## Cache Configuration
 
-The package supports various cache drivers:
+The package supports various cache drivers and includes intelligent caching for all API endpoints:
+
+### Supported Cache Drivers
 
 - `array`: Default in-memory cache
 - `redis`: Redis cache
 - `database`: Database cache
 - `file`: File-based cache
+
+### Cached Endpoints
+
+All API endpoints are automatically cached with intelligent cache keys:
+
+#### **Exchange Rates**
+```php
+$exchange = $bamboo->exchange()
+    ->setBaseCurrency('USD')
+    ->setCurrency('EUR')
+    ->rate(); // Cache key: exchange_rate_USD_EUR
+```
+
+#### **Catalogs**
+```php
+$catalogs = $bamboo->catalogs()
+    ->setVersion(2)
+    ->setCurrencyCode('USD')
+    ->setCountryCode('US')
+    ->setPageSize(50)
+    ->get(); // Cache key: catalog_2_{payload_hash}
+```
+
+#### **Accounts**
+```php
+$accounts = $bamboo->accounts()->get(); // Cache key: accounts
+```
+
+#### **Transactions**
+```php
+$transactions = $bamboo->transactions()
+    ->setStartDate('2023-01-01')
+    ->setEndDate('2023-01-31')
+    ->get(); // Cache key: transactions_2023-01-01_2023-01-31
+```
+
+#### **Orders**
+```php
+$orders = $bamboo->orders()
+    ->setStartDate('2023-01-01')
+    ->setEndDate('2023-01-31')
+    ->get(); // Cache key: orders_2023-01-01_2023-01-31
+```
+
+### Cache Benefits
+
+- **🚀 Performance**: Reduces API calls for frequently accessed data
+- **💰 Cost Savings**: Fewer API requests to Bamboo Card Portal  
+- **⚡ Speed**: Faster response times for cached data
+- **🔧 Configurable**: Can be enabled/disabled and TTL adjusted via config
+- **🎯 Smart Keys**: Automatic cache key generation based on parameters
 
 ## Version 2 API
 
@@ -328,11 +390,14 @@ This package is open-sourced software licensed under the [MIT license](https://o
 ### Version 2.0.0
 - Added Laravel 12 compatibility
 - Implemented comprehensive exception handling system
-- Added intelligent caching with configurable drivers
+- Added intelligent caching with configurable drivers for all API endpoints
 - Introduced Laravel facade for improved developer experience
 - Enhanced test coverage with unit and integration tests
 - Improved error handling and validation
 - Added support for multiple cache drivers (Redis, Database, File, Array)
+- **NEW**: Automatic caching for Exchange, Catalogs, Accounts, and Transactions
+- **NEW**: Smart cache key generation based on method parameters
+- **NEW**: Configurable cache TTL and driver selection
 
 ### Version 1.0.0
 - Initial release with basic API integration
