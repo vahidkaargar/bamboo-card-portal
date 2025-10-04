@@ -29,7 +29,6 @@ A professional Laravel package for seamless integration with the Bamboo Card Por
 - [Contributing](#contributing)
 - [License](#license)
 - [Changelog](#changelog)
-  - [Version 2.0.0](#version-200)
   - [Version 1.0.0](#version-100)
 - [Support](#support)
 
@@ -354,11 +353,11 @@ $orders = $bamboo->orders()
 
 ### Cache Benefits
 
-- **🚀 Performance**: Reduces API calls for frequently accessed data
-- **💰 Cost Savings**: Fewer API requests to Bamboo Card Portal  
-- **⚡ Speed**: Faster response times for cached data
-- **🔧 Configurable**: Can be enabled/disabled and TTL adjusted via config
-- **🎯 Smart Keys**: Automatic cache key generation based on parameters
+- **Performance**: Reduces API calls for frequently accessed data
+- **Cost Savings**: Fewer API requests to Bamboo Card Portal  
+- **Speed**: Faster response times for cached data
+- **Configurable**: Can be enabled/disabled and TTL adjusted via config
+- **Smart Keys**: Automatic cache key generation based on parameters
 
 ## Version 2 API
 
@@ -387,7 +386,10 @@ This package is open-sourced software licensed under the [MIT license](https://o
 
 ## Changelog
 
-### Version 2.0.0
+### Version 1.0.0
+- Initial release with basic API integration
+- Support for orders, catalogs, accounts, exchange, transactions, and notifications
+- Basic configuration management
 - Added Laravel 12 compatibility
 - Implemented comprehensive exception handling system
 - Added intelligent caching with configurable drivers for all API endpoints
@@ -395,14 +397,10 @@ This package is open-sourced software licensed under the [MIT license](https://o
 - Enhanced test coverage with unit and integration tests
 - Improved error handling and validation
 - Added support for multiple cache drivers (Redis, Database, File, Array)
-- **NEW**: Automatic caching for Exchange, Catalogs, Accounts, and Transactions
-- **NEW**: Smart cache key generation based on method parameters
-- **NEW**: Configurable cache TTL and driver selection
+- Automatic caching for Exchange, Catalogs, Accounts, and Transactions
+- Smart cache key generation based on method parameters
+- Configurable cache TTL and driver selection
 
-### Version 1.0.0
-- Initial release with basic API integration
-- Support for orders, catalogs, accounts, exchange, transactions, and notifications
-- Basic configuration management
 
 ## Support
 
