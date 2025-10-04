@@ -2,6 +2,37 @@
 
 A professional Laravel package for seamless integration with the Bamboo Card Portal API. This package provides a robust, well-tested solution for interacting with Bamboo's services, featuring comprehensive exception handling, intelligent caching, Laravel facades, and extensive test coverage.
 
+## Table of Contents
+
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+  - [Environment Variables](#environment-variables)
+- [Usage](#usage)
+  - [Basic Usage](#basic-usage)
+  - [Using the Facade](#using-the-facade)
+  - [Exception Handling](#exception-handling)
+  - [Caching](#caching)
+  - [Configuration Options](#configuration-options)
+- [API Methods](#api-methods)
+  - [Orders](#orders)
+  - [Catalogs](#catalogs)
+  - [Accounts](#accounts)
+  - [Exchange](#exchange)
+  - [Transactions](#transactions)
+  - [Notifications](#notifications)
+- [Testing](#testing)
+- [Exception Types](#exception-types)
+- [Cache Configuration](#cache-configuration)
+- [Version 2 API](#version-2-api)
+- [Contributing](#contributing)
+- [License](#license)
+- [Changelog](#changelog)
+  - [Version 2.0.0](#version-200)
+  - [Version 1.0.0](#version-100)
+- [Support](#support)
+
 ## Features
 
 - **Easy Integration**: Simple API for interacting with Bamboo Card Portal
@@ -33,6 +64,8 @@ Publish the configuration file:
 ```bash
 php artisan vendor:publish --provider="vahidkaargar\BambooCardPortal\ServiceProviders\BambooServiceProvider" --tag="bamboo-config"
 ```
+
+### Environment Variables
 
 Configure your environment variables in `.env`:
 
