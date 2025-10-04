@@ -35,4 +35,14 @@ return [
      * Curl timeout
      */
     "connection_timeout" => env('BAMBOO_CONNECTION_TIMEOUT', 160),
+
+    /*
+     * Cache configuration
+     */
+    "cache" => [
+        "enabled" => env('BAMBOO_CACHE_ENABLED', true),
+        "driver" => env('BAMBOO_CACHE_DRIVER', 'default'),
+        "prefix" => env('BAMBOO_CACHE_PREFIX', 'bamboo'),
+        "ttl" => env('BAMBOO_CACHE_TTL', 3600), // 1 hour in seconds
+    ],
 ];
