@@ -10,8 +10,8 @@ A professional Laravel package for seamless integration with the Bamboo Card Por
 - [Configuration](#configuration)
   - [Environment Variables](#environment-variables)
 - [Usage](#usage)
-  - [Basic Usage](#basic-usage)
   - [Using the Facade](#using-the-facade)
+  - [Basic Usage](#basic-usage)
   - [Exception Handling](#exception-handling)
   - [Caching](#caching)
   - [Configuration Options](#configuration-options)
@@ -71,7 +71,7 @@ Configure your environment variables in `.env`:
 
 ```env
 # Sandbox Configuration
-BAMBOO_SANDBOX_MODE=true
+BAMBOO_SANDBOX_MODE=false
 BAMBOO_SANDBOX_USERNAME=your_sandbox_username
 BAMBOO_SANDBOX_PASSWORD=your_sandbox_password
 
@@ -80,7 +80,7 @@ BAMBOO_PRODUCTION_USERNAME=your_production_username
 BAMBOO_PRODUCTION_PASSWORD=your_production_password
 
 # Cache Configuration
-BAMBOO_CACHE_ENABLED=true
+BAMBOO_CACHE_ENABLED=false
 BAMBOO_CACHE_DRIVER=default
 BAMBOO_CACHE_PREFIX=bamboo
 BAMBOO_CACHE_TTL=3600
@@ -91,35 +91,6 @@ BAMBOO_CONNECTION_TIMEOUT=160
 
 ## Usage
 
-### Basic Usage
-
-```php
-use vahidkaargar\BambooCardPortal\Bamboo;
-
-$bamboo = new Bamboo();
-
-// Get orders
-$orders = $bamboo->orders()
-    ->setStartDate('2023-01-01')
-    ->setEndDate('2023-01-31')
-    ->get();
-
-// Get specific order
-$order = $bamboo->orders()->get('order-id');
-
-// Create order
-$bamboo->orders()
-    ->setRequestId('unique-request-id')
-    ->setAccountId(123)
-    ->setProducts([
-        ["ProductId" => $productId, "Quantity" => $quantity, "Value" => $value],
-        ["ProductId" => $productId2, "Quantity" => $quantity2, "Value" => $value2],
-        ["ProductId" => $productId3, "Quantity" => $quantity3, "Value" => $value3],
-    ])
-    ->setProduct($productId4, $quantity4, $value4)
-    ->checkout();
-```
-
 ### Using the Facade
 
 ```php
@@ -129,6 +100,39 @@ use Bamboo;
 $orders = Bamboo::orders()->get();
 $catalogs = Bamboo::catalogs()->get();
 $accounts = Bamboo::accounts()->get();
+```
+
+### Basic Usage
+
+```php
+use vahidkaargar\BambooCardPortal\Bamboo;
+
+$bamboo = new Bamboo();
+// Or Helper
+$bamboo = bamboo();
+
+
+// Get orders
+$orders = $bamboo->orders()
+    ->setStartDate('2023-01-01')
+    ->setEndDate('2023-01-31')
+    ->get();
+
+// Create order
+$requestedId = Str::uuid();
+$bamboo->orders()
+    ->setRequestId($requestedId)
+    ->setAccountId(123)
+    ->setProducts([
+        ["ProductId" => $productId, "Quantity" => $quantity, "Value" => $value],
+        ["ProductId" => $productId2, "Quantity" => $quantity2, "Value" => $value2],
+        ["ProductId" => $productId3, "Quantity" => $quantity3, "Value" => $value3],
+    ])
+    ->setProduct($productId4, $quantity4, $value4)
+    ->checkout();
+
+// Get specific order
+$order = $bamboo->orders()->get($requestedId);
 ```
 
 ### Exception Handling
@@ -190,7 +194,7 @@ $transactions->setStartDate('2023-01-01')->setEndDate('2023-01-31')->get(); // U
 ```php
 // config/bamboo.php
 return [
-    'sandbox_mode' => env('BAMBOO_SANDBOX_MODE', true),
+    'sandbox_mode' => env('BAMBOO_SANDBOX_MODE', false),
     
     // Sandbox credentials
     'sandbox_username' => env('BAMBOO_SANDBOX_USERNAME'),
@@ -208,10 +212,10 @@ return [
     
     // Cache settings
     'cache' => [
-        'enabled' => env('BAMBOO_CACHE_ENABLED', true),
-        'driver' => env('BAMBOO_CACHE_DRIVER', 'default'),
+        'enabled' => env('BAMBOO_CACHE_ENABLED', false),
+        'driver' => env('BAMBOO_CACHE_DRIVER', 'file'),
         'prefix' => env('BAMBOO_CACHE_PREFIX', 'bamboo'),
-        'ttl' => env('BAMBOO_CACHE_TTL', 3600),
+        'ttl' => env('BAMBOO_CACHE_TTL', 60),
     ],
 ];
 ```
@@ -228,14 +232,15 @@ $orders->setStartDate('2023-01-01')
        ->setEndDate('2023-01-31')
        ->get();
 
-// Get specific order
-$orders->get('order-id');
-
 // Create order
-$orders->setRequestId('unique-id')
+$requestedId = Str::uuid();
+$orders->setRequestId($requestedId)
        ->setAccountId(123)
        ->setProduct(1, 5, 100)
        ->checkout();
+
+// Get specific order
+$orders->get($requestedId);
 ```
 
 ### Catalogs
@@ -262,8 +267,10 @@ $rates = $exchange->get();
 ### Transactions
 
 ```php
-$transactions = $bamboo->transactions();
-$transaction = $transactions->get();
+$transactions = $bamboo->transactions()
+      ->setStartDate('2022-05-02')
+      ->setEndDate('2022-05-20')
+      ->get();
 ```
 
 ### Notifications
