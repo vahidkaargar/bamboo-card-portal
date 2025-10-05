@@ -2,8 +2,10 @@
 
 namespace vahidkaargar\BambooCardPortal\Tests\Unit;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
-use Orchestra\Testbench\TestCase;
+use Illuminate\Support\Facades\Http;
+use vahidkaargar\BambooCardPortal\Tests\TestCase;
 use vahidkaargar\BambooCardPortal\Bamboo;
 
 /**
@@ -12,12 +14,17 @@ use vahidkaargar\BambooCardPortal\Bamboo;
 class ApiTraitTest extends TestCase
 {
     /**
+     * @var Bamboo
+     */
+    protected Bamboo $bamboo;
+
+    /**
      * @return void
      */
     protected function setUp(): void
     {
         parent::setUp();
-        $this->bamboo = new Bamboo();
+        $this->bamboo = new Bamboo('test_user', 'test_pass', true);
     }
 
     /**
@@ -25,11 +32,24 @@ class ApiTraitTest extends TestCase
      */
     public function testIsApiResponseSuitable()
     {
+        // Mock the HTTP response
+        Http::fake([
+            'https://api-test.example.com/*' => Http::response([
+                'success' => true,
+                'status' => 200,
+                'message' => 'Success',
+                'body' => [
+                    'data' => 'test data'
+                ]
+            ], 200)
+        ]);
+
         $request = $this->bamboo->http([
             "username" => 'test',
             "password" => 'test',
-            "baseUrl" => 'https://api.bamboocardportal.com/api/integration/v1.0/'
+            "baseUrl" => 'https://api-test.example.com/api/integration/v1.0/'
         ])->get('accounts');
+        
         $response = $this->bamboo->collect($request);
         $this->assertInstanceOf(Collection::class, $response);
         $this->assertArrayHasKey('success', $response);

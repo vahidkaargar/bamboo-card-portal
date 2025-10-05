@@ -2,6 +2,8 @@
 
 namespace vahidkaargar\BambooCardPortal\Interfaces;
 
+use vahidkaargar\BambooCardPortal\Tasks\{Accounts, Catalogs, Exchange, Notifications, Orders, Transactions};
+
 /**
  * Bamboo interface
  */
@@ -10,30 +12,30 @@ interface BambooInterface
     /**
      * @return mixed
      */
-    public function catalogs();
+    public function catalogs(): Catalogs;
 
     /**
      * @return mixed
      */
-    public function accounts();
+    public function accounts(): Accounts;
 
     /**
      * @return mixed
      */
-    public function orders();
+    public function orders(): Orders;
 
     /**
      * @return mixed
      */
-    public function exchange();
+    public function exchange(): Exchange;
 
     /**
      * @return mixed
      */
-    public function transactions();
+    public function transactions(): Transactions;
 
     /**
      * @return mixed
      */
-    public function notifications();
+    public function notifications(): Notifications;
 }

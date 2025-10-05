@@ -21,25 +21,34 @@
     }
   },
   "require": {
-    "php": ">=7.4",
-    "illuminate/support": "^5.0|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
+    "php": ">=8.2",
+    "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0",
+    "illuminate/http": "^8.0|^9.0|^10.0|^11.0|^12.0",
+    "illuminate/cache": "^8.0|^9.0|^10.0|^11.0|^12.0",
     "josantonius/http-status-code": "^1.0|^2.0",
-    "guzzlehttp/guzzle": "^7.2"
+    "guzzlehttp/guzzle": "^7.2|^8.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^10|^11",
-    "orchestra/testbench": "^8.10"
+    "phpunit/phpunit": "^10|^11|^12",
+    "orchestra/testbench": "^8.10|^9.0|^10.0"
   },
   "autoload-dev": {
     "psr-4": {
       "vahidkaargar\\BambooCardPortal\\Tests\\": "tests/"
     }
   },
+  "scripts": {
+    "test": "phpunit",
+    "test-coverage": "phpunit --testdox"
+  },
   "extra": {
     "laravel": {
       "providers": [
         "vahidkaargar\\BambooCardPortal\\ServiceProviders\\BambooServiceProvider"
-      ]
+      ],
+      "aliases": {
+        "Bamboo": "vahidkaargar\\BambooCardPortal\\Facades\\BambooFacade"
+      }
     }
   }
 }

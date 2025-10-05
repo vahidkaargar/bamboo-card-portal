@@ -2,9 +2,11 @@
 
 namespace vahidkaargar\BambooCardPortal\Tasks;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
 use vahidkaargar\BambooCardPortal\Bamboo;
+use vahidkaargar\BambooCardPortal\Services\CacheService;
 
 class Catalogs extends Bamboo
 {
@@ -23,19 +25,38 @@ class Catalogs extends Bamboo
     private array $payload = [];
 
     /**
+     * @var CacheService|null
+     */
+    protected ?CacheService $cacheService;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->cacheService = app(CacheService::class);
+    }
+
+    /**
      * @return Collection
+     * @throws ConnectionException
      */
     public function get(): Collection
     {
-        switch ($this->getVersion()) {
-            case 2:
-                $catalog = $this->version2()->http->get('catalog', $this->payload);
-                break;
-            case 1:
-            default:
-                $catalog = $this->http->get('catalog');
-        }
-        return $this->collect($catalog);
+        $cacheKey = 'catalog_' . $this->getVersion() . '_' . md5(serialize($this->payload));
+        
+        return $this->cacheService->remember($cacheKey, function () {
+            switch ($this->getVersion()) {
+                case 2:
+                    $catalog = $this->version2()->http->get('catalog', $this->payload);
+                    break;
+                case 1:
+                default:
+                    $catalog = $this->http->get('catalog');
+            }
+            return $this->collect($catalog);
+        });
     }
 
     /**

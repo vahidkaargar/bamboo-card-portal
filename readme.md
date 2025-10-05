@@ -1,127 +1,116 @@
-## Bamboo Card Portal API for Laravel
+# Bamboo Card Portal Laravel Package
 
-**Bamboo Card Portal API** is a Laravel package that offers seamless integration with the Bamboo API. Bamboo is a trusted provider of digital prepaid products and reward fulfillment services, making it a valuable solution for businesses operating in the Middle East.
-
+A professional Laravel package for seamless integration with the Bamboo Card Portal API. This package provides a robust, well-tested solution for interacting with Bamboo's services, featuring comprehensive exception handling, intelligent caching, Laravel facades, and extensive test coverage.
 
 ## Table of Contents
 
-- [About Bamboo](#about-bamboo)
+- [Features](#features)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Configuration](#configuration)
+  - [Environment Variables](#environment-variables)
 - [Usage](#usage)
-    - [Using the Helper Function](#1-using-the-helper-function)
-    - [Using the Bamboo Class Directly](#2-using-the-bamboo-class-directly)
-    - [Catalogs](#catalogs)
-    - [Account](#account)
-    - [Order](#order)
-    - [Exchange rate](#exchange-rate)
-    - [Transaction](#transaction)
-    - [Notification](#notification)
-    - [Test](#test)
-  
+  - [Basic Usage](#basic-usage)
+  - [Using the Facade](#using-the-facade)
+  - [Exception Handling](#exception-handling)
+  - [Caching](#caching)
+  - [Configuration Options](#configuration-options)
+- [API Methods](#api-methods)
+  - [Orders](#orders)
+  - [Catalogs](#catalogs)
+  - [Accounts](#accounts)
+  - [Exchange](#exchange)
+  - [Transactions](#transactions)
+  - [Notifications](#notifications)
+- [Testing](#testing)
+- [Exception Types](#exception-types)
+- [Cache Configuration](#cache-configuration)
+- [Version 2 API](#version-2-api)
+- [Contributing](#contributing)
+- [License](#license)
+- [Changelog](#changelog)
+  - [Version 1.0.0](#version-100)
+- [Support](#support)
 
+## Features
 
-### About Bamboo
+- **Easy Integration**: Simple API for interacting with Bamboo Card Portal
+- **Exception Handling**: Comprehensive exception layer with specific exception types
+- **Intelligent Caching**: Automatic caching for all API endpoints with smart cache keys
+- **Facade Support**: Laravel facade for easy access
+- **Comprehensive Testing**: Full test suite with unit and integration tests
+- **Configuration**: Flexible configuration with environment variables
+- **Security**: Built-in authentication and validation
+- **Performance**: Optimized with intelligent caching to reduce API calls
+- **Laravel 12 Compatible**: Full support for Laravel 5.x through 12.x
 
-BAMBOO ELECTRONIC CARDS TRADING LLC is a leading distributor of digital prepaid products and a recognized rewards fulfillment agency. This package simplifies the interaction with their platform, enabling developers to manage and distribute digital products effectively.
+## Requirements
 
-### Requirements
+- PHP >= 8.2
+- Laravel 8.x, 9.x, 10.x, 11.x, or 12.x
 
-1. Laravel Framework: 8.x or higher
-2. PHP: 7.4 or higher
-3. Composer: Latest version
+## Installation
 
-### Installation
-To install the Bamboo Card Portal API package, use the following Composer command:
+Install the package via Composer:
+
 ```bash
-composer require "vahidkaargar/bamboo-card-portal"
+composer require vahidkaargar/bamboo-card-portal
 ```
 
-### configuration
+## Configuration
 
-After installation, configure the package by setting the following environment variables in your Laravel project's `.env` file:
+Publish the configuration file:
 
-```dotenv
-BAMBOO_SANDBOX_USERNAME=
-BAMBOO_SANDBOX_PASSWORD=
-BAMBOO_SANDBOX_MODE=
-BAMBOO_PRODUCTION_USERNAME=
-BAMBOO_PRODUCTION_PASSWORD=
-# In seconds
-BAMBOO_CONNECTION_TIMEOUT=360
-```
-
-### Publish config file
-This will generate a configuration file at `config/bamboo.php`, where you can further customize the settings. (Like Sandbox etc.)
 ```bash
-php artisan vendor:publish --tag=bamboo-config
+php artisan vendor:publish --provider="vahidkaargar\BambooCardPortal\ServiceProviders\BambooServiceProvider" --tag="bamboo-config"
 ```
 
-### Usage
+### Environment Variables
 
-There are two primary ways to use this package:
+Configure your environment variables in `.env`:
 
-#### 1. Using the Helper Function
-```php
-$bamboo = bamboo();
-$bamboo = bamboo('username', 'password', false);
+```env
+# Sandbox Configuration
+BAMBOO_SANDBOX_MODE=true
+BAMBOO_SANDBOX_USERNAME=your_sandbox_username
+BAMBOO_SANDBOX_PASSWORD=your_sandbox_password
+
+# Production Configuration
+BAMBOO_PRODUCTION_USERNAME=your_production_username
+BAMBOO_PRODUCTION_PASSWORD=your_production_password
+
+# Cache Configuration
+BAMBOO_CACHE_ENABLED=true
+BAMBOO_CACHE_DRIVER=default
+BAMBOO_CACHE_PREFIX=bamboo
+BAMBOO_CACHE_TTL=3600
+
+# Connection Configuration
+BAMBOO_CONNECTION_TIMEOUT=160
 ```
 
-#### 2. Using the Bamboo Class Directly
+## Usage
+
+### Basic Usage
+
 ```php
 use vahidkaargar\BambooCardPortal\Bamboo;
-$bamboo = new Bamboo();
-$bamboo = new Bamboo('username', 'password', true);
-```
-
-### Catalogs
-Catalogs have two versions
-```php
-use vahidkaargar\BambooCardPortal\Bamboo;
 
 $bamboo = new Bamboo();
 
-// Version 1
-$catalogs = $bamboo->catalogs()->get();
-
-// Version 2
-$catalogs = $bamboo->catalogs()
-    ->setVersion(2)
-    ->setName('playstation germany')
-    ->setProductId(114111)
-    ->setBrandId(100)
-    ->setCountryCode('US')
-    ->setCurrencyCode('USD')
-    ->setModifiedDate('2022-08-21')
-    ->setPageIndex(default: 0)
-    ->setPageSize(default: 150)
+// Get orders
+$orders = $bamboo->orders()
+    ->setStartDate('2023-01-01')
+    ->setEndDate('2023-01-31')
     ->get();
-```
 
-### Account
+// Get specific order
+$order = $bamboo->orders()->get('order-id');
 
-```php
-use vahidkaargar\BambooCardPortal\Bamboo;
-
-$bamboo = new Bamboo();
-$account = $bamboo->accounts()->get();
-```
-
-### Order
-
-```php
-use vahidkaargar\BambooCardPortal\Bamboo;
-
-$bamboo = (new Bamboo())->orders();
- 
-/*
- * checkout and create an order
- * you can add multiple products
- */
-$requestedId = Str::uuid();
-$checkout = $bamboo->setRequestId($requestedId)
-    ->setAccountId($accountId)
+// Create order
+$bamboo->orders()
+    ->setRequestId('unique-request-id')
+    ->setAccountId(123)
     ->setProducts([
         ["ProductId" => $productId, "Quantity" => $quantity, "Value" => $value],
         ["ProductId" => $productId2, "Quantity" => $quantity2, "Value" => $value2],
@@ -129,72 +118,294 @@ $checkout = $bamboo->setRequestId($requestedId)
     ])
     ->setProduct($productId4, $quantity4, $value4)
     ->checkout();
- 
-/*
- * get orders between to date e.g. 2022-05-02
- */
-$orders = $bamboo->setStartDate('2022-05-02')
-    ->setEndDate('2022-05-20')
-    ->get();
-
-/*
- * get orders base on $requestedId, its string
- */
-$order = $bamboo->get($requestedId);
 ```
 
-### Exchange rate
+### Using the Facade
 
 ```php
-use vahidkaargar\BambooCardPortal\Bamboo;
+use Bamboo;
 
-$bamboo = new Bamboo();
+// All methods are available through the facade
+$orders = Bamboo::orders()->get();
+$catalogs = Bamboo::catalogs()->get();
+$accounts = Bamboo::accounts()->get();
+```
+
+### Exception Handling
+
+The package provides specific exceptions for different error scenarios:
+
+```php
+use vahidkaargar\BambooCardPortal\Exceptions\{
+    AuthenticationException,
+    ConfigurationException,
+    NetworkException,
+    ResourceNotFoundException,
+    ValidationException
+};
+
+try {
+    $orders = $bamboo->orders()->get();
+} catch (AuthenticationException $e) {
+    // Handle authentication errors
+    logger('Authentication failed: ' . $e->getMessage());
+} catch (ResourceNotFoundException $e) {
+    // Handle resource not found errors
+    logger('Resource not found: ' . $e->getMessage());
+} catch (ValidationException $e) {
+    // Handle validation errors
+    $errors = $e->getErrors();
+    logger('Validation errors: ' . json_encode($errors));
+} catch (NetworkException $e) {
+    // Handle network errors
+    logger('Network error: ' . $e->getMessage());
+}
+```
+
+### Caching
+
+The package includes intelligent caching functionality for all API endpoints:
+
+```php
+// Cache is enabled by default for all endpoints
+$orders = $bamboo->orders()->get(); // This will be cached
+$catalogs = $bamboo->catalogs()->get(); // This will be cached
+$accounts = $bamboo->accounts()->get(); // This will be cached
+$transactions = $bamboo->transactions()->get(); // This will be cached
+$exchange = $bamboo->exchange()->rate(); // This will be cached
+
+// Disable caching in config
+// BAMBOO_CACHE_ENABLED=false
+
+// Use different cache driver
+// BAMBOO_CACHE_DRIVER=redis
+
+// Cache keys are automatically generated based on parameters
+$catalogs->setCurrencyCode('USD')->setCountryCode('US')->get(); // Unique cache key
+$transactions->setStartDate('2023-01-01')->setEndDate('2023-01-31')->get(); // Unique cache key
+```
+
+### Configuration Options
+
+```php
+// config/bamboo.php
+return [
+    'sandbox_mode' => env('BAMBOO_SANDBOX_MODE', true),
+    
+    // Sandbox credentials
+    'sandbox_username' => env('BAMBOO_SANDBOX_USERNAME'),
+    'sandbox_password' => env('BAMBOO_SANDBOX_PASSWORD'),
+    'sandbox_base_url' => 'https://api-stage.bamboocardportal.com/api/integration/v1.0/',
+    
+    // Production credentials
+    'production_username' => env('BAMBOO_PRODUCTION_USERNAME'),
+    'production_password' => env('BAMBOO_PRODUCTION_PASSWORD'),
+    'production_base_url' => 'https://api.bamboocardportal.com/api/integration/v1.0/',
+    'production_v2_base_url' => 'https://api.bamboocardportal.com/api/integration/v2.0/',
+    
+    // Connection settings
+    'connection_timeout' => env('BAMBOO_CONNECTION_TIMEOUT', 160),
+    
+    // Cache settings
+    'cache' => [
+        'enabled' => env('BAMBOO_CACHE_ENABLED', true),
+        'driver' => env('BAMBOO_CACHE_DRIVER', 'default'),
+        'prefix' => env('BAMBOO_CACHE_PREFIX', 'bamboo'),
+        'ttl' => env('BAMBOO_CACHE_TTL', 3600),
+    ],
+];
+```
+
+## API Methods
+
+### Orders
+
+```php
+$orders = $bamboo->orders();
+
+// Get orders with date range
+$orders->setStartDate('2023-01-01')
+       ->setEndDate('2023-01-31')
+       ->get();
+
+// Get specific order
+$orders->get('order-id');
+
+// Create order
+$orders->setRequestId('unique-id')
+       ->setAccountId(123)
+       ->setProduct(1, 5, 100)
+       ->checkout();
+```
+
+### Catalogs
+
+```php
+$catalogs = $bamboo->catalogs();
+$products = $catalogs->get();
+```
+
+### Accounts
+
+```php
+$accounts = $bamboo->accounts();
+$account = $accounts->get();
+```
+
+### Exchange
+
+```php
+$exchange = $bamboo->exchange();
+$rates = $exchange->get();
+```
+
+### Transactions
+
+```php
+$transactions = $bamboo->transactions();
+$transaction = $transactions->get();
+```
+
+### Notifications
+
+```php
+$notifications = $bamboo->notifications();
+$notification = $notifications->get();
+```
+
+## Testing
+
+Run the test suite:
+
+```bash
+composer test
+```
+
+The package includes comprehensive tests for:
+- Unit tests for all components
+- Integration tests for API interactions
+- Exception handling tests
+- Cache functionality tests
+- Facade tests
+
+## Exception Types
+
+- `BambooException`: Base exception class
+- `AuthenticationException`: Authentication failures (401)
+- `ConfigurationException`: Configuration errors
+- `NetworkException`: Network/connection errors
+- `ResourceNotFoundException`: Resource not found (404)
+- `ValidationException`: Validation errors (422)
+
+## Cache Configuration
+
+The package supports various cache drivers and includes intelligent caching for all API endpoints:
+
+### Supported Cache Drivers
+
+- `array`: Default in-memory cache
+- `redis`: Redis cache
+- `database`: Database cache
+- `file`: File-based cache
+
+### Cached Endpoints
+
+All API endpoints are automatically cached with intelligent cache keys:
+
+#### **Exchange Rates**
+```php
 $exchange = $bamboo->exchange()
     ->setBaseCurrency('USD')
     ->setCurrency('EUR')
-    ->rate();
+    ->rate(); // Cache key: exchange_rate_USD_EUR
 ```
 
-### Transaction
-
+#### **Catalogs**
 ```php
-use vahidkaargar\BambooCardPortal\Bamboo;
+$catalogs = $bamboo->catalogs()
+    ->setVersion(2)
+    ->setCurrencyCode('USD')
+    ->setCountryCode('US')
+    ->setPageSize(50)
+    ->get(); // Cache key: catalog_2_{payload_hash}
+```
 
-$bamboo = new Bamboo();
-/*
- * get orders between to date e.g. 2022-05-02
- */
+#### **Accounts**
+```php
+$accounts = $bamboo->accounts()->get(); // Cache key: accounts
+```
+
+#### **Transactions**
+```php
 $transactions = $bamboo->transactions()
-    ->setStartDate('2022-05-02')
-    ->setEndDate('2022-05-20')
-    ->get();
+    ->setStartDate('2023-01-01')
+    ->setEndDate('2023-01-31')
+    ->get(); // Cache key: transactions_2023-01-01_2023-01-31
 ```
 
-### Notification
-For create a notification listener:
-- You must set a callback URL address from your website
-- You must set a secret key for passing the right notifications
+#### **Orders**
 ```php
-use vahidkaargar\BambooCardPortal\Bamboo;
+$orders = $bamboo->orders()
+    ->setStartDate('2023-01-01')
+    ->setEndDate('2023-01-31')
+    ->get(); // Cache key: orders_2023-01-01_2023-01-31
+```
 
+### Cache Benefits
+
+- **Performance**: Reduces API calls for frequently accessed data
+- **Cost Savings**: Fewer API requests to Bamboo Card Portal  
+- **Speed**: Faster response times for cached data
+- **Configurable**: Can be enabled/disabled and TTL adjusted via config
+- **Smart Keys**: Automatic cache key generation based on parameters
+
+## Version 2 API
+
+Switch to version 2 of the API:
+
+```php
 $bamboo = new Bamboo();
-
-/*
- * get notification that you created
- */
-$notification = $bamboo->notifications()->get();
-
-/*
- * create notification listener
- */
-$notification = $bamboo->notifications()
-    ->setNotificationUrl('https://your-website.com/notification-listener')
-    ->setSecretKey('your-secret-key')
-    ->create();
+$bamboo->version2(); // Switch to v2 API
 ```
 
-### Test
+## Contributing
 
-```bash
-./vendor/bin/phpunit
-```
+We welcome contributions to improve this package. Please follow these steps:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Write tests for your changes
+4. Ensure all tests pass (`composer test`)
+5. Commit your changes (`git commit -m 'Add some amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
+
+## License
+
+This package is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Changelog
+
+### Version 1.0.0
+- Initial release with basic API integration
+- Support for orders, catalogs, accounts, exchange, transactions, and notifications
+- Basic configuration management
+- Added Laravel 12 compatibility
+- Implemented comprehensive exception handling system
+- Added intelligent caching with configurable drivers for all API endpoints
+- Introduced Laravel facade for improved developer experience
+- Enhanced test coverage with unit and integration tests
+- Improved error handling and validation
+- Added support for multiple cache drivers (Redis, Database, File, Array)
+- Automatic caching for Exchange, Catalogs, Accounts, and Transactions
+- Smart cache key generation based on method parameters
+- Configurable cache TTL and driver selection
+
+
+## Support
+
+For support and questions:
+
+- Open an issue on [GitHub](https://github.com/vahidkaargar/bamboo-card-portal/issues)
+- Contact the maintainer at vahidkaargar@gmail.com
+- Check the [documentation](https://github.com/vahidkaargar/bamboo-card-portal) for detailed examples
