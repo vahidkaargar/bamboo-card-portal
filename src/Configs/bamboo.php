@@ -40,8 +40,8 @@ return [
      * Cache configuration
      */
     "cache" => [
-        "enabled" => env('BAMBOO_CACHE_ENABLED', true),
-        "driver" => env('BAMBOO_CACHE_DRIVER', 'default'),
+        "enabled" => env('BAMBOO_CACHE_ENABLED', false),
+        "driver" => env('BAMBOO_CACHE_DRIVER', 'file'),
         "prefix" => env('BAMBOO_CACHE_PREFIX', 'bamboo'),
         "ttl" => env('BAMBOO_CACHE_TTL', 60), // 1 minute in seconds
     ],
