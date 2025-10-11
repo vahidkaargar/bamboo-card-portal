@@ -366,15 +366,6 @@ $orders = $bamboo->orders()
 - **Configurable**: Can be enabled/disabled and TTL adjusted via config
 - **Smart Keys**: Automatic cache key generation based on parameters
 
-## Version 2 API
-
-Switch to version 2 of the API:
-
-```php
-$bamboo = new Bamboo();
-$bamboo->version2(); // Switch to v2 API
-```
-
 ## Contributing
 
 We welcome contributions to improve this package. Please follow these steps:
